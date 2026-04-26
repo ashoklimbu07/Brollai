@@ -25,6 +25,7 @@ Rules:
   transparent crystal-clear glossy glass skeleton, medically accurate anatomy, subtle confident smirk,
   Unreal Engine 5 hyper realism, ray traced lighting, 8K, cinematic depth of field.
   Format: [action] + [setting] + [lighting] + [camera] + [style tag].
+  Add a subtle green LUT tint (light touch) to the style/grade in every broll_prompt for consistency (do not overdo it).
 
 OUTPUT — ONLY valid JSON. No markdown, no backticks, no commentary.
 {

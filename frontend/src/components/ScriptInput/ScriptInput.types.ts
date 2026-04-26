@@ -6,6 +6,7 @@ export interface ScriptInputProps {
   brollPromptsJson: string;
   brollPromptsPlain: string;
   totalScenes: number;
+  desiredScenes?: number | null;
   onGenerateClick: () => void;
   onGenerateBroll: () => void;
   onCancelGenerateBroll: () => void;

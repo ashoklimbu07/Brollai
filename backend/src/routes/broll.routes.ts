@@ -53,9 +53,8 @@ router.post('/generate', async (req: Request, res: Response) => {
       return;
     }
 
-    // Currently only supporting transparent_skeleton style
-    if (style !== 'transparent_skeleton') {
-      res.status(400).json({ error: 'Only transparent_skeleton style is currently supported' });
+    if (style !== 'transparent_skeleton' && style !== '2d_animation') {
+      res.status(400).json({ error: 'style must be either "transparent_skeleton" or "2d_animation"' });
       return;
     }
 
@@ -63,7 +62,7 @@ router.post('/generate', async (req: Request, res: Response) => {
     console.log(`📝 Script length: ${script.length}`);
     console.log(`🎞️ Desired scenes: ${desiredScenes}`);
 
-    const brollPrompts = await brollService.generateBrollPromptsFromScript(script, desiredScenes, signal);
+    const brollPrompts = await brollService.generateBrollPromptsFromScript(script, style, desiredScenes, signal);
 
     const sceneCount = brollPrompts.scenes.length;
 

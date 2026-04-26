@@ -1,6 +1,10 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { CONFIG } from '../config.js';
 import { getMasterAnalyzerSystemPrompt, getMasterAnalyzerUserPrompt } from '../prompts/masterAnalyzerPrompt.js';
+import {
+  get2dAnimationMasterAnalyzerSystemPrompt,
+  get2dAnimationMasterAnalyzerUserPrompt,
+} from '../prompts/masterAnalyzer2dAnimationPrompt.js';
 import type { MasterAnalyzerResult, SceneChunk } from '../types.js';
 import { safeParseJSON } from '../utils/safeParseJSON.js';
 
@@ -27,6 +31,7 @@ export async function runMasterAnalyzer(
   script: string,
   apiKey: string,
   sceneCount: number,
+  style: string,
 ): Promise<MasterAnalyzerResult> {
   let lastError: unknown;
 
@@ -41,9 +46,18 @@ export async function runMasterAnalyzer(
         },
       });
 
+      const systemPrompt =
+        style === '2d_animation'
+          ? get2dAnimationMasterAnalyzerSystemPrompt()
+          : getMasterAnalyzerSystemPrompt();
+      const userPrompt =
+        style === '2d_animation'
+          ? get2dAnimationMasterAnalyzerUserPrompt(script, sceneCount)
+          : getMasterAnalyzerUserPrompt(script, sceneCount);
+
       const result = await model.generateContent([
-        { text: getMasterAnalyzerSystemPrompt() },
-        { text: getMasterAnalyzerUserPrompt(script, sceneCount) },
+        { text: systemPrompt },
+        { text: userPrompt },
       ]);
       const rawText = result.response.text();
       const parsed = safeParseJSON<MasterAnalyzerResult>(rawText);

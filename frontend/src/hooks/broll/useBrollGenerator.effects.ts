@@ -59,9 +59,9 @@ export function useBrollGeneratorEffects(args: {
     }
   }, [showBrollOutput]);
 
-  // Dismiss "Coming soon" when user switches to a supported style
+  // Dismiss "Coming soon" when user switches styles (kept for backward compatibility).
   useEffect(() => {
-    if (selectedStyle && selectedStyle !== '2d_animation') {
+    if (selectedStyle) {
       setShowComingSoon(false);
     }
   }, [selectedStyle, setShowComingSoon]);
