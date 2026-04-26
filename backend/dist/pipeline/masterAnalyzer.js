@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { CONFIG } from '../config.js';
 import { getMasterAnalyzerSystemPrompt, getMasterAnalyzerUserPrompt } from '../prompts/masterAnalyzerPrompt.js';
+import { get2dAnimationMasterAnalyzerSystemPrompt, get2dAnimationMasterAnalyzerUserPrompt, } from '../prompts/masterAnalyzer2dAnimationPrompt.js';
 import { safeParseJSON } from '../utils/safeParseJSON.js';
 function normalizeChunks(raw, sceneCount) {
     const withNumericIds = raw.map((c) => ({
@@ -20,7 +21,7 @@ function normalizeChunks(raw, sceneCount) {
     }
     return sorted;
 }
-export async function runMasterAnalyzer(script, apiKey, sceneCount) {
+export async function runMasterAnalyzer(script, apiKey, sceneCount, style) {
     let lastError;
     for (let attempt = 1; attempt <= CONFIG.MAX_RETRIES; attempt += 1) {
         try {
@@ -32,9 +33,15 @@ export async function runMasterAnalyzer(script, apiKey, sceneCount) {
                     temperature: CONFIG.TEMPERATURE,
                 },
             });
+            const systemPrompt = style === '2d_animation'
+                ? get2dAnimationMasterAnalyzerSystemPrompt()
+                : getMasterAnalyzerSystemPrompt();
+            const userPrompt = style === '2d_animation'
+                ? get2dAnimationMasterAnalyzerUserPrompt(script, sceneCount)
+                : getMasterAnalyzerUserPrompt(script, sceneCount);
             const result = await model.generateContent([
-                { text: getMasterAnalyzerSystemPrompt() },
-                { text: getMasterAnalyzerUserPrompt(script, sceneCount) },
+                { text: systemPrompt },
+                { text: userPrompt },
             ]);
             const rawText = result.response.text();
             const parsed = safeParseJSON(rawText);

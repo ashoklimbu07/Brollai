@@ -6,7 +6,7 @@ export declare const brollService: {
     /**
      * Generate B-roll prompts from a raw script via analyzer -> phase -> batch pipeline.
      */
-    generateBrollPromptsFromScript: (script: string, desiredScenes: number, signal?: AbortSignal) => Promise<{
+    generateBrollPromptsFromScript: (script: string, style: string, desiredScenes: number, signal?: AbortSignal) => Promise<{
         scenes: BrollScene[];
         jsonText: string;
         plainText: string;

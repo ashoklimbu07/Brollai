@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { CONFIG } from '../config.js';
 import { generateBrollPrompt } from '../prompts/brollmasterprompt.js';
+import { generate2dAnimationBrollPrompt } from '../prompts/broll2dAnimationMasterPrompt.js';
 import { safeParseJSON } from '../utils/safeParseJSON.js';
 import { ApiKeyPool } from './apiKeyPool.js';
 function splitIntoBatches(items, batchSize) {
@@ -116,7 +117,9 @@ export async function runBatchGenerator(params) {
                     const lastSceneId = batchStartIndex + batchSceneTotal;
                     const attemptNote = attempt > 1 ? ` · retry ${attempt}/${CONFIG.MAX_RETRIES}` : '';
                     console.log(`[B-roll] Batch ${batchLabel}${attemptNote} · scenes ${firstSceneId}–${lastSceneId} · key #${keyEntry.id} …${keyLast4}`);
-                    const prompt = generateBrollPrompt(sceneLines, batchStartIndex);
+                    const prompt = params.style === '2d_animation'
+                        ? generate2dAnimationBrollPrompt(sceneLines, batchStartIndex)
+                        : generateBrollPrompt(sceneLines, batchStartIndex);
                     const response = await model.generateContent(prompt);
                     throwIfAborted();
                     const rawText = response.response.text();

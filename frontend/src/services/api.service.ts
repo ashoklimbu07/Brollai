@@ -266,24 +266,51 @@ export const apiService = {
   },
 
   getGenerationHistory: async (limit = 100, signal?: AbortSignal): Promise<HistoryItem[]> => {
-    const response = await fetch(`${API_BASE_URL}/history?limit=${encodeURIComponent(String(limit))}`, {
-      method: 'GET',
-      headers: {
-        ...getAuthHeaders(),
-      },
-      credentials: 'include',
-      signal,
-    });
+    const execute = async (hasRetriedAfterWake = false): Promise<HistoryItem[]> => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/history?limit=${encodeURIComponent(String(limit))}`, {
+          method: 'GET',
+          headers: {
+            ...getAuthHeaders(),
+          },
+          credentials: 'include',
+          signal,
+        });
 
-    if (!response.ok) {
-      const error = await parseJsonResponse<{ error?: string; details?: string }>(response, 'History fetch');
-      const details = typeof error.details === 'string' ? error.details : '';
-      const message = details ? `${error.error}: ${details}` : error.error || 'Failed to fetch history';
-      throw new Error(message);
-    }
+        if (!response.ok) {
+          const error = await parseJsonResponse<{ error?: string; details?: string }>(response, 'History fetch');
+          const details = typeof error.details === 'string' ? error.details : '';
+          const message = details ? `${error.error}: ${details}` : error.error || 'Failed to fetch history';
+          throw new Error(message);
+        }
 
-    const data = await parseJsonResponse<{ items?: HistoryItem[] }>(response, 'History fetch');
-    return Array.isArray(data.items) ? data.items : [];
+        const data = await parseJsonResponse<{ items?: HistoryItem[] }>(response, 'History fetch');
+        return Array.isArray(data.items) ? data.items : [];
+      } catch (e: unknown) {
+        if (e instanceof Error && e.name === 'AbortError') {
+          throw e;
+        }
+
+        // Browser network error when backend is down / sleeping.
+        if (e instanceof TypeError && /failed to fetch/i.test(e.message)) {
+          console.warn('⚠️ Frontend: History fetch failed to fetch. Attempting to wake backend and retry.');
+
+          if (!hasRetriedAfterWake) {
+            const woke = await tryWakeBackend(signal);
+            if (woke) {
+              console.log('🔁 Frontend: Backend woke up, retrying history fetch...');
+              return execute(true);
+            }
+          }
+
+          throw new Error('Failed to fetch history — waking server and trying again did not succeed. Please try again.');
+        }
+
+        throw e;
+      }
+    };
+
+    return execute();
   },
 
   deleteGenerationHistory: async (historyId: string, signal?: AbortSignal): Promise<void> => {
@@ -292,23 +319,36 @@ export const apiService = {
       throw new Error('History id is required.');
     }
 
-    const response = await fetch(`${API_BASE_URL}/history/${encodeURIComponent(trimmedHistoryId)}`, {
-      method: 'DELETE',
-      headers: {
-        ...getAuthHeaders(),
-      },
-      credentials: 'include',
-      signal,
-    });
+    try {
+      const response = await fetch(`${API_BASE_URL}/history/${encodeURIComponent(trimmedHistoryId)}`, {
+        method: 'DELETE',
+        headers: {
+          ...getAuthHeaders(),
+        },
+        credentials: 'include',
+        signal,
+      });
 
-    if (!response.ok) {
-      if (response.status === 404) {
-        throw new Error('History item was already removed.');
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error('History item was already removed.');
+        }
+        const error = await parseJsonResponse<{ error?: string; details?: string }>(response, 'History delete');
+        const details = typeof error.details === 'string' ? error.details : '';
+        const message = details ? `${error.error}: ${details}` : error.error || 'Failed to delete history item';
+        throw new Error(message);
       }
-      const error = await parseJsonResponse<{ error?: string; details?: string }>(response, 'History delete');
-      const details = typeof error.details === 'string' ? error.details : '';
-      const message = details ? `${error.error}: ${details}` : error.error || 'Failed to delete history item';
-      throw new Error(message);
+    } catch (e: unknown) {
+      if (e instanceof Error && e.name === 'AbortError') {
+        throw e;
+      }
+
+      if (e instanceof TypeError && /failed to fetch/i.test(e.message)) {
+        console.warn('⚠️ Frontend: History delete failed to fetch. Attempting to wake backend.');
+        await tryWakeBackend(signal);
+        throw new Error('Failed to fetch — backend appears asleep. Server wake attempted; please retry delete.');
+      }
+      throw e;
     }
   },
 };

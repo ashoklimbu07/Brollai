@@ -64,13 +64,6 @@ export async function handleGenerateBrollImpl(args: {
     return;
   }
 
-  // 2D Animation / hand-drawn style is not implemented yet — show Coming Soon
-  if (selectedStyle === '2d_animation') {
-    setError(null);
-    setShowComingSoon(true);
-    return;
-  }
-
   const trimmed = script.trim();
   const length = trimmed.length;
 
@@ -97,6 +90,7 @@ export async function handleGenerateBrollImpl(args: {
 
   setIsGenerating(true);
   setError(null);
+  setShowComingSoon(false);
   setShowBrollOutput(false);
   setBrollPromptsJson('');
   setBrollPromptsPlain('');

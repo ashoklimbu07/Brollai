@@ -7,6 +7,7 @@ import { runMasterAnalyzer } from './masterAnalyzer.js';
 export async function runPipeline(
   script: string,
   sceneCount: number,
+  style: string,
   signal?: AbortSignal,
 ): Promise<PipelineResult> {
   const throwIfAborted = (signal?: AbortSignal) => {
@@ -47,11 +48,14 @@ export async function runPipeline(
     script,
     CONFIG.ANALYZER_API_KEY,
     sceneCount,
+    style,
   );
   throwIfAborted(signal);
   apiCallCount = 1;
 
-  const batchParams = signal ? { allChunks: mergedChunks, pool, signal } : { allChunks: mergedChunks, pool };
+  const batchParams = signal
+    ? { allChunks: mergedChunks, pool, style, signal }
+    : { allChunks: mergedChunks, pool, style };
   const scenes = await runBatchGenerator(batchParams);
   throwIfAborted(signal);
   const batchCalls = Math.ceil(sceneCount / CONFIG.BATCH_SIZE);

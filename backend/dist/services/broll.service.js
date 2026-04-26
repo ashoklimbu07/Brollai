@@ -7,8 +7,8 @@ export const brollService = {
     /**
      * Generate B-roll prompts from a raw script via analyzer -> phase -> batch pipeline.
      */
-    generateBrollPromptsFromScript: async (script, desiredScenes, signal) => {
-        const result = await runPipeline(script, desiredScenes, signal);
+    generateBrollPromptsFromScript: async (script, style, desiredScenes, signal) => {
+        const result = await runPipeline(script, desiredScenes, style, signal);
         const toSceneBlock = (scene) => JSON.stringify(scene, null, 2);
         const plainText = result.scenes.map(toSceneBlock).join('\n\n');
         return {

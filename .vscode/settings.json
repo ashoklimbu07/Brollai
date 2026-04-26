@@ -1,0 +1,19 @@
+{
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.turbo": true,
+    "**/.next": true,
+    "**/build": true,
+    "**/coverage": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/.turbo/**": true,
+    "**/.next/**": true,
+    "**/build/**": true,
+    "**/coverage/**": true
+  }
+}
+

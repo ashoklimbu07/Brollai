@@ -5,13 +5,17 @@ export function ScriptInputBrollOutput(props: {
   brollPromptsJson: string;
   brollPromptsPlain: string;
   totalScenes: number;
+  desiredScenes?: number | null;
   onDeleteBroll: () => void;
 }) {
-  const { isGenerating, brollPromptsJson, brollPromptsPlain, totalScenes, onDeleteBroll } = props;
+  const { isGenerating, brollPromptsJson, brollPromptsPlain, totalScenes, desiredScenes, onDeleteBroll } = props;
 
   const sceneBlocks = extractSceneBlocks({ brollPromptsJson, brollPromptsPlain });
   const parsedCount = sceneBlocks.length;
-  const sceneCount = totalScenes || parsedCount;
+  const shouldTrustDesiredScenes =
+    !!desiredScenes && desiredScenes > 1 && totalScenes === 1 && parsedCount <= 1;
+
+  const sceneCount = shouldTrustDesiredScenes ? desiredScenes : totalScenes || parsedCount || desiredScenes || 0;
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
