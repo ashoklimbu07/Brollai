@@ -43,6 +43,32 @@ function formatBrollTextWithSingleGap(raw: string): string {
   return normalized;
 }
 
+function formatBrollPromptBlocksOnly(raw: string): string {
+  const normalized = normalizePromptText(raw);
+  if (!normalized) return '';
+
+  try {
+    const parsed = JSON.parse(normalized) as unknown;
+    if (Array.isArray(parsed)) {
+      const blocks = parsed
+        .map((entry) => {
+          if (!entry || typeof entry !== 'object') return '';
+          const sceneText = (entry as { scene?: unknown }).scene;
+          return typeof sceneText === 'string' ? normalizePromptText(sceneText) : '';
+        })
+        .filter(Boolean);
+      if (blocks.length > 0) {
+        // Exactly one blank line between prompt blocks.
+        return blocks.join('\n\n');
+      }
+    }
+  } catch {
+    // ignore and fall back below
+  }
+
+  return normalized;
+}
+
 export function downloadBrollJSON(args: {
   brollPromptsJson: string;
   brollPromptsPlain: string;
@@ -56,9 +82,9 @@ export function downloadBrollPlainText(args: {
   brollPromptsJson: string;
   brollPromptsPlain: string;
 }) {
-  // Download plain text format (human-readable)
-  // Normalize line breaks so each prompt block is separated by exactly one blank line
-  const normalizedText = formatBrollTextWithSingleGap(args.brollPromptsPlain || args.brollPromptsJson);
+  // Download plain text format (human-readable prompt blocks only)
+  // Exactly one blank line between prompts.
+  const normalizedText = formatBrollPromptBlocksOnly(args.brollPromptsPlain || args.brollPromptsJson);
   downloadTextFile({ normalizedText, filename: 'broll-prompts-text.txt' });
 }
 

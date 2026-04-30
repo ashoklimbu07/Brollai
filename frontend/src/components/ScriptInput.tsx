@@ -14,6 +14,7 @@ export const ScriptInput = ({
   brollPromptsJson,
   brollPromptsPlain,
   totalScenes,
+  desiredScenes,
   onGenerateClick,
   onGenerateBroll,
   onCancelGenerateBroll,
@@ -113,6 +114,7 @@ export const ScriptInput = ({
           brollPromptsJson={brollPromptsJson}
           brollPromptsPlain={brollPromptsPlain}
           totalScenes={totalScenes}
+          desiredScenes={desiredScenes}
           onDeleteBroll={onDeleteBroll}
         />
       )}

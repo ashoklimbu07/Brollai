@@ -2,7 +2,7 @@ import { CONFIG } from '../config.js';
 import { ApiKeyPool } from './apiKeyPool.js';
 import { runBatchGenerator } from './batchGenerator.js';
 import { runMasterAnalyzer } from './masterAnalyzer.js';
-export async function runPipeline(script, sceneCount, signal) {
+export async function runPipeline(script, sceneCount, style, signal) {
     const throwIfAborted = (signal) => {
         if (signal?.aborted) {
             const err = new Error('Cancelled');
@@ -26,10 +26,12 @@ export async function runPipeline(script, sceneCount, signal) {
     }
     const pool = new ApiKeyPool(CONFIG.API_KEYS);
     let apiCallCount = 0;
-    const { context_card: contextCard, chunks: mergedChunks } = await runMasterAnalyzer(script, CONFIG.ANALYZER_API_KEY, sceneCount);
+    const { context_card: contextCard, chunks: mergedChunks } = await runMasterAnalyzer(script, CONFIG.ANALYZER_API_KEY, sceneCount, style);
     throwIfAborted(signal);
     apiCallCount = 1;
-    const batchParams = signal ? { allChunks: mergedChunks, pool, signal } : { allChunks: mergedChunks, pool };
+    const batchParams = signal
+        ? { allChunks: mergedChunks, pool, style, signal }
+        : { allChunks: mergedChunks, pool, style };
     const scenes = await runBatchGenerator(batchParams);
     throwIfAborted(signal);
     const batchCalls = Math.ceil(sceneCount / CONFIG.BATCH_SIZE);

@@ -1,5 +1,5 @@
 import { useEffect, useRef, type ChangeEvent } from 'react';
-import { Send, Trash2, Upload } from 'lucide-react';
+import { CircleHelp, Send, Trash2, Upload } from 'lucide-react';
 import { ScriptInput } from '../../components/ScriptInput';
 import { useBrollGenerator } from '../../hooks/useBrollGenerator';
 import { apiService } from '../../services/api.service';
@@ -181,20 +181,33 @@ export function GenerateToolPage() {
             type="button"
             onClick={() => setSelectedStyle('transparent_skeleton')}
             disabled={isGenerating}
-            className={`rounded-md border p-4 text-left transition-colors ${
+            className={`relative rounded-md border p-4 text-left transition-colors ${
               selectedStyle === 'transparent_skeleton'
                 ? 'border-[#e8380d] bg-[#e8380d]/12'
                 : 'border-[#2e2e2e] bg-[#161616] hover:border-[#e8380d]/60'
             } disabled:cursor-not-allowed disabled:opacity-50`}
           >
+            <button
+              type="button"
+              aria-label="More info about Transparent Skeleton"
+              onClick={(event) => event.stopPropagation()}
+              className="group absolute right-3 top-3 inline-flex h-6 w-6 items-center justify-center rounded-sm text-[#b0b0b0]/40 transition-opacity hover:text-[#f0ede8] hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-[#ff5a2f]/40"
+            >
+              <CircleHelp size={14} />
+              <span className="pointer-events-none absolute bottom-full right-0 z-20 mb-2 w-[280px] rounded border border-[#3a2a25] bg-[#171311] p-2.5 text-left text-[11px] leading-5 text-[#e8ddd7] opacity-0 shadow-[0_12px_30px_rgba(0,0,0,0.45)] transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100">
+                X-ray / translucent character look. Emphasizes see-through bones, subtle internal glow, high contrast edges,
+                and a clean dark background for readable “transparent” anatomy shots.
+              </span>
+            </button>
+
             <p className="text-sm font-semibold text-[#f0ede8]">Transparent Skeleton</p>
-            <p className="mt-1 text-xs text-[#888888]">X-ray style transparent skeleton visuals</p>
+            <p className="mt-1 text-xs text-[#888888]">What if translucent character?</p>
           </button>
           <button
             type="button"
             onClick={() => setSelectedStyle('2d_animation')}
             disabled={isGenerating}
-            className={`rounded-md border p-4 text-left transition-colors ${
+            className={`relative rounded-md border p-4 text-left transition-colors ${
               selectedStyle === '2d_animation'
                 ? 'border-[#e8380d] bg-[#e8380d]/12'
                 : 'border-[#2e2e2e] bg-[#161616] hover:border-[#e8380d]/60'
@@ -202,11 +215,21 @@ export function GenerateToolPage() {
           >
             <div className="flex items-center gap-2">
               <p className="text-sm font-semibold text-[#f0ede8]">2D Animation</p>
-              <span className="bg-[#2a220f] px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-[#ffb800]">
-                Coming soon
-              </span>
             </div>
-            <p className="mt-1 text-xs text-[#888888]">Classic hand-drawn animation look</p>
+            <button
+              type="button"
+              aria-label="More info about 2D Animation"
+              onClick={(event) => event.stopPropagation()}
+              className="group absolute right-3 top-3 inline-flex h-6 w-6 items-center justify-center rounded-sm text-[#b0b0b0]/40 transition-opacity hover:text-[#f0ede8] hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-[#ff5a2f]/40"
+            >
+              <CircleHelp size={14} />
+              <span className="pointer-events-none absolute bottom-full right-0 z-20 mb-2 w-[280px] rounded border border-[#3a2a25] bg-[#171311] p-2.5 text-left text-[11px] leading-5 text-[#e8ddd7] opacity-0 shadow-[0_12px_30px_rgba(0,0,0,0.45)] transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100">
+                Hand-drawn 2D style with clean line art, flat colors, and simple backgrounds. Best when your prompt is short
+                and clear (who/what/where), so scenes stay consistent and readable.
+              </span>
+            </button>
+
+            <p className="mt-1 text-xs text-[#888888]">Short prompt, classic hand-drawn look</p>
           </button>
         </div>
 
@@ -261,6 +284,7 @@ export function GenerateToolPage() {
           brollPromptsJson={brollPromptsJson}
           brollPromptsPlain={brollPromptsPlain}
           totalScenes={totalScenes}
+          desiredScenes={desiredScenes}
           onGenerateClick={handleGenerateClick}
           onGenerateBroll={handleGenerateBroll}
           onCancelGenerateBroll={cancelGenerateBroll}
