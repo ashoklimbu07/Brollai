@@ -9,6 +9,8 @@ export function ScriptInputEditorSection(props: {
   trimmedLength: number;
   isScriptLengthInvalid: boolean;
 }) {
+  const MIN_SCRIPT_CHARACTERS = 800;
+  const MAX_SCRIPT_CHARACTERS = 1500;
   const {
     script,
     setScript,
@@ -90,8 +92,8 @@ export function ScriptInputEditorSection(props: {
       <div className="mt-1 flex justify-between text-[11px] text-[#666666]">
         <span>
           {isScriptLengthInvalid
-            ? 'Script must be between 1000 and 1500 characters.'
-            : 'Ideal length: 1000–1500 characters.'}
+            ? `Script must be between ${MIN_SCRIPT_CHARACTERS} and ${MAX_SCRIPT_CHARACTERS} characters.`
+            : `Ideal length: ${MIN_SCRIPT_CHARACTERS}–${MAX_SCRIPT_CHARACTERS} characters.`}
         </span>
         <span className={isScriptLengthInvalid ? 'text-red-400 font-semibold' : ''}>
           {trimmedLength} chars

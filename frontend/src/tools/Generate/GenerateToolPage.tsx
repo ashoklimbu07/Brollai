@@ -66,7 +66,10 @@ export function GenerateToolPage() {
   };
 
   const trimmedLength = script.trim().length;
-  const isScriptLengthInvalid = trimmedLength > 0 && (trimmedLength < 1000 || trimmedLength > 1500);
+  const MIN_SCRIPT_CHARACTERS = 800;
+  const MAX_SCRIPT_CHARACTERS = 1500;
+  const isScriptLengthInvalid =
+    trimmedLength > 0 && (trimmedLength < MIN_SCRIPT_CHARACTERS || trimmedLength > MAX_SCRIPT_CHARACTERS);
   const scriptValidationErrors = [
     'Please enter a script first',
     'Please select a style first',
@@ -74,7 +77,11 @@ export function GenerateToolPage() {
     'Scene number must be between 25 and 35',
   ];
   const shouldHideInlineError =
-    !!error && (scriptValidationErrors.includes(error) || error.includes('between 1000 and 1500 characters'));
+    !!error &&
+    (scriptValidationErrors.includes(error) ||
+      error.includes(`between ${MIN_SCRIPT_CHARACTERS} and ${MAX_SCRIPT_CHARACTERS} characters`) ||
+      // Backwards compatible with older backend/frontend validations
+      error.includes('between 1000 and 1500 characters'));
   const displayError = shouldHideInlineError ? null : error;
 
   return (
@@ -129,8 +136,8 @@ export function GenerateToolPage() {
             >
               {selectedStyle
                 ? (isScriptLengthInvalid
-                  ? 'Script must be between 1000 and 1500 characters.'
-                  : 'Ideal length: 1000-1500 characters.')
+                  ? `Script must be between ${MIN_SCRIPT_CHARACTERS} and ${MAX_SCRIPT_CHARACTERS} characters.`
+                  : `Ideal length: ${MIN_SCRIPT_CHARACTERS}-${MAX_SCRIPT_CHARACTERS} characters.`)
                 : 'Validation message placeholder'}
             </span>
             <span
