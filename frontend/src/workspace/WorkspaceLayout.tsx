@@ -8,7 +8,15 @@ type WorkspaceLayoutProps = {
   headerActions?: ReactNode;
 };
 
-const WAKE_UP_SERVER_URL = 'https://b-roll-1y7k.onrender.com/api/health';
+const DEFAULT_LOCAL_API_BASE_URL = 'http://localhost:3000/api';
+
+const normalizeApiBaseUrl = (rawBaseUrl?: string): string => {
+  const trimmed = (rawBaseUrl || DEFAULT_LOCAL_API_BASE_URL).replace(/\/+$/, '');
+  return /\/api$/i.test(trimmed) ? trimmed : `${trimmed}/api`;
+};
+
+const API_BASE_URL = normalizeApiBaseUrl(import.meta.env.VITE_API_BASE_URL);
+const WAKE_UP_SERVER_URL = `${API_BASE_URL}/health`;
 
 function NavSection({
   title,
