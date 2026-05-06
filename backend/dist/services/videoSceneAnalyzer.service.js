@@ -144,7 +144,7 @@ const REGENERATE_RESPONSE_SCHEMA = {
 const GEMINI_GENERATION_CONFIG = {
     maxOutputTokens: 8192,
 };
-const DEFAULT_MODEL = 'gemini-2.5-flash-lite';
+const DEFAULT_MODEL = 'gemini-2.5-flash';
 const DEFAULT_IMAGE_MODEL = 'imagen-4.0-generate-001';
 const DEFAULT_VIDEO_MODEL = 'veo-3.1-fast-generate-preview';
 const maskApiKey = (key) => {

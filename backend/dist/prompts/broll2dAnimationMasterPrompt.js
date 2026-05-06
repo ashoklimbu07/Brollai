@@ -103,7 +103,7 @@ ${sceneLines.map((line, idx) => `Scene id ${startIndex + idx + 1}: ${line}`).joi
 Return a JSON array of exactly ${sceneLines.length} objects, ids ${startIndex + 1} through ${startIndex + sceneLines.length}.`;
 };
 export const twoDAnimationBrollGeneratorConfig = {
-    model: 'gemini-2.5-flash-lite',
+    model: 'gemini-2.5-flash',
     temperature: 0.7,
     batchSize: 5,
     batchDelayMs: 1000,
