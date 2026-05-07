@@ -39,7 +39,7 @@ Exact shape per object:
     "mood": "Match emotional tone"
   },
   "background": "Cinematic B-roll environment, realistic and context-aware",
-  "color_palette": "Scene-specific grading matching mood",
+  "color_palette": "Scene-specific grading matching mood, with a subtle green LUT tint (light touch) present in every scene for consistency",
   "quality": "8k, ultra-realistic, razor-sharp details, intricate textures, cinematic depth of field, subtle bokeh, professional color grading",
   "aspect_ratio": "9:16",
   "strict_prohibitions": [

@@ -64,7 +64,7 @@ Exact shape per object:
   },
   "background": "Illustrated environment consistent with setting and era, animation-ready",
   "environment": "highly detailed environment: <location description>. realistic textures, layered background, atmospheric depth, immersive setting, subtle environmental storytelling",
-  "color_palette": "cinematic color grading, film-like palette, slightly desaturated tones, rich contrast, warm highlights + cool shadows, natural greens/blues, cohesive color harmony",
+  "color_palette": "cinematic color grading, film-like palette, slightly desaturated tones, rich contrast, warm highlights + cool shadows, natural greens/blues, cohesive color harmony, subtle green LUT tint (light touch) for consistency across all scenes",
   "quality": "ultra detailed, 4k resolution, masterpiece, artstation quality, professional illustration, sharp focus, cinematic composition",
   "aspect_ratio": "9:16",
   "strict_prohibitions": [

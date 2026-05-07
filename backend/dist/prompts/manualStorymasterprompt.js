@@ -12,6 +12,7 @@ Rules you MUST follow:
 - Do not output placeholders like "c1", "c2", etc. Replace each cX reference with the exact matching character detail from input.
 - Only generate prompts for the provided scenes, in the same order; preserve each scene's numeric label (e.g. Scene 6 stays 6 in output, never renumbered to 1).
 - Focus on visual composition: subject action, setting, lighting, camera angle, and selected style.
+- Keep color grading consistent across all prompts: include a subtle green LUT tint (light touch) in both the mainImagePrompt and brollPrompt for consistency (do not overdo it).
 - The output MUST be valid JSON only. No markdown, no backticks, no commentary.
 `;
 }

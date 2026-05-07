@@ -30,6 +30,7 @@ Rules:
   - Single full frame only: do NOT describe split screens, multi-panel layouts, collage frames, triptychs, or multiple frames in one image.
   - Make it B-roll friendly and catchy: prefer clear, cinematic micro-actions (inspect, reach, turn, sign, scan, adjust, step into light, look over shoulder, etc.) that match the meaning of the chunk.
   - Avoid repetition across chunks: every seed must be meaningfully different. Vary the action, camera, location detail, and key props; do not reuse the same scene idea with minor wording changes.
+  - Keep color grading consistent: include a subtle green LUT tint (light touch) in the style/grade of every seed for consistency (do not overdo it).
 
 OUTPUT — ONLY valid JSON. No markdown, no backticks, no commentary.
 {
