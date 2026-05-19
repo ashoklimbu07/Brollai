@@ -11,7 +11,7 @@ import { HistoryPage } from './extra/History/HistoryPage';
 import { MediaLibraryPage } from './extra/MediaLibrary/MediaLibraryPage';
 import { ManualStoryPage } from './tools/ManualStory/ManualStoryPage';
 import { PromptCleanerPage } from './tools/PromptCleaner/PromptCleanerPage';
-import { ScriptWriterPage } from './tools/ScriptWriter/ScriptWriterPage';
+import { ScriptTranslatorPage } from './tools/ScriptTranslator/ScriptTranslatorPage';
 import { VideoSceneAnalyzerPage } from './tools/VideoSceneAnalyzer/VideoSceneAnalyzerPage';
 import { WorkspaceHomePage } from './workspace/WorkspaceHomePage';
 
@@ -27,8 +27,9 @@ function App() {
       <Route path="/genrate" element={<ProtectedRoute><Navigate to="/tools/generate" replace /></ProtectedRoute>} />
       <Route path="/tools/generate" element={<ProtectedRoute><GeneratePage /></ProtectedRoute>} />
       <Route path="/tools/video-scene-analyzer" element={<ProtectedRoute><VideoSceneAnalyzerPage /></ProtectedRoute>} />
-      <Route path="/tools/script-writer" element={<ProtectedRoute><ScriptWriterPage /></ProtectedRoute>} />
-      <Route path="/script-translator" element={<ProtectedRoute><ScriptWriterPage /></ProtectedRoute>} />
+      {/* /tools/script-writer kept as redirect for backward compat */}
+      <Route path="/tools/script-writer" element={<ProtectedRoute><Navigate to="/script-translator" replace /></ProtectedRoute>} />
+      <Route path="/script-translator" element={<ProtectedRoute><ScriptTranslatorPage /></ProtectedRoute>} />
       <Route path="/tools/prompt-cleaner" element={<ProtectedRoute><PromptCleanerPage /></ProtectedRoute>} />
       <Route path="/tools/manual-story" element={<ProtectedRoute><ManualStoryPage /></ProtectedRoute>} />
       <Route path="/extra/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
