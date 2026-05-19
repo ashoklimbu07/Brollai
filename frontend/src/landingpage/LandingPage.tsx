@@ -1,9 +1,33 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  BookOpen,
+  Download,
+  History,
+  Languages,
+  PenLine,
+  ScanSearch,
+  Sparkles,
+  Video,
+  Zap,
+  type LucideIcon,
+} from 'lucide-react';
 import './landingPage.css';
 import { features, pricing, stats, steps, tickerItems } from './landingPageData';
 
 const sectionPad = 'px-5 md:px-12';
+
+/* Map string icon keys (from data file) to Lucide components */
+const iconMap: Record<string, LucideIcon> = {
+  PenLine,
+  Zap,
+  Download,
+  Sparkles,
+  ScanSearch,
+  Languages,
+  BookOpen,
+  History,
+};
 
 /* Phone frame card with stat above */
 function PhoneCard({
@@ -47,7 +71,7 @@ function PhoneCard({
           {/* Placeholder shimmer while loading */}
           {!loaded && (
             <div className="absolute inset-0 bg-[#111111] flex items-center justify-center">
-              <span className="text-[32px] opacity-10">🎬</span>
+              <Video size={28} className="text-[#333333]" />
             </div>
           )}
         </div>
@@ -243,7 +267,7 @@ export function LandingPage() {
               <div className="font-['Bebas_Neue'] text-[80px] leading-none mb-6 text-[#222222] group-hover:text-[#ff3c00] transition-colors duration-200">
                 {step.number}
               </div>
-              <div className="text-[28px] mb-4">{step.icon}</div>
+              {(() => { const Icon = iconMap[step.icon]; return Icon ? <Icon size={28} className="mb-4 text-[#ff3c00]" /> : null; })()}
               <h3 className="text-lg font-medium mb-3">{step.title}</h3>
               <p className="text-sm leading-[1.7] text-[#888888]">{step.description}</p>
               <span className="absolute left-0 bottom-0 h-0.5 bg-[#ff3c00] w-0 group-hover:w-full transition-all duration-300" />
@@ -282,9 +306,7 @@ export function LandingPage() {
               <h3 className="text-[22px] font-medium mb-3">{feature.title}</h3>
               <p className="text-sm leading-[1.8] text-[#888888] max-w-[480px]">{feature.description}</p>
               {/* Decorative icon ghost */}
-              <span className="absolute right-10 bottom-10 text-[64px] opacity-[0.05] group-hover:opacity-[0.10] group-hover:scale-110 group-hover:-rotate-[5deg] transition-all duration-300 select-none">
-                {feature.icon}
-              </span>
+              {(() => { const Icon = iconMap[feature.icon]; return Icon ? <Icon size={64} className="absolute right-10 bottom-10 opacity-[0.05] group-hover:opacity-[0.10] transition-all duration-300 text-[#f0ede8] select-none" /> : null; })()}
               {/* Bottom accent line */}
               <span className="absolute left-0 bottom-0 h-0.5 bg-[#ff3c00] w-0 group-hover:w-full transition-all duration-500" />
             </div>
