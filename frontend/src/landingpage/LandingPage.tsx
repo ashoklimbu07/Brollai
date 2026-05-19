@@ -159,7 +159,7 @@ export function LandingPage() {
             >
               Start for Free →
             </button>
-            <span className="text-xs tracking-[.3px] text-[#666666]">No credit card - 10 free exports/month</span>
+            <span className="text-xs tracking-[.3px] text-[#666666]">No credit card — 3 free outputs/month</span>
           </div>
         </div>
 
@@ -321,9 +321,15 @@ export function LandingPage() {
               ) : null}
 
               <p className="text-[11px] tracking-[3px] uppercase text-[#666666] mb-5">{plan.plan}</p>
-              <p className="font-['Bebas_Neue'] text-[64px] leading-none tracking-[-1px] mb-1">
-                <span className="text-2xl align-super">$</span>
-                {plan.amount}
+              <p className="font-['Bebas_Neue'] leading-none tracking-[-1px] mb-1">
+                {plan.amount === '0' ? (
+                  <span className="text-[64px]">$0</span>
+                ) : (
+                  <>
+                    <span className="text-2xl align-super">$</span>
+                    <span className="text-[64px]">{plan.amount}</span>
+                  </>
+                )}
               </p>
               <p className="text-[13px] text-[#666666] mb-8">{plan.period}</p>
               <ul className="flex flex-col gap-3 mb-9">
@@ -368,7 +374,7 @@ export function LandingPage() {
           <em className="not-italic text-transparent [-webkit-text-stroke:1px_#f0ede8]">Hunting Clips.</em>
         </h2>
         <p data-reveal className="reveal-item relative text-lg leading-[1.7] text-[#888888] max-w-[480px] mx-auto mt-6 mb-12">
-          Let AI handle the B-roll while you focus on ideas. 10 free exports a month, no credit card needed.
+          Let AI handle the B-roll while you focus on ideas. 3 free outputs a month, no credit card needed.
         </p>
         <div data-reveal className="reveal-item relative flex flex-col sm:flex-row gap-4 justify-center items-center">
           <button

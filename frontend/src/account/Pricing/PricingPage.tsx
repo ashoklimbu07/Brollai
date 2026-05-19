@@ -12,6 +12,7 @@ const PLANS: {
   border: string;
   bg: string;
   glow: string;
+  price: string;
   outputs: string;
   features: { text: string; locked?: boolean }[];
 }[] = [
@@ -23,13 +24,13 @@ const PLANS: {
     border: 'border-[#333333]',
     bg: 'bg-[#111111]',
     glow: '',
+    price: '$0',
     outputs: '3 outputs / month',
     features: [
-      { text: 'Access to all tools' },
       { text: 'B-roll generator' },
+      { text: 'Video scene analyzer' },
       { text: 'Script translator' },
       { text: 'Manual story builder' },
-      { text: 'Video scene analyzer' },
       { text: 'Generation history', locked: true },
     ],
   },
@@ -41,13 +42,14 @@ const PLANS: {
     border: 'border-[#34d399]/40',
     bg: 'bg-[#111111]',
     glow: 'shadow-[0_0_40px_rgba(52,211,153,0.07)]',
+    price: '$4.99',
     outputs: '20 outputs / month',
     features: [
       { text: 'Everything in Free' },
       { text: 'B-roll generator' },
+      { text: 'Video scene analyzer' },
       { text: 'Script translator' },
       { text: 'Manual story builder' },
-      { text: 'Video scene analyzer' },
       { text: 'Generation history' },
     ],
   },
@@ -59,6 +61,7 @@ const PLANS: {
     border: 'border-[#a78bfa]/40',
     bg: 'bg-[#111111]',
     glow: 'shadow-[0_0_40px_rgba(167,139,250,0.08)]',
+    price: '$15.99',
     outputs: 'Unlimited outputs',
     features: [
       { text: 'Everything in Pro' },
@@ -77,6 +80,7 @@ const ADMIN_PLAN = {
   border: 'border-[#e8380d]/40',
   bg: 'bg-[#111111]',
   glow: 'shadow-[0_0_40px_rgba(232,56,13,0.10)]',
+  price: 'Internal',
   outputs: 'Unlimited outputs',
   features: [
     { text: 'No restrictions', locked: false },
@@ -107,6 +111,12 @@ function PlanCard({
           <span className="text-xl">{plan.icon}</span>
           <p className={`font-['Bebas_Neue'] text-[26px] tracking-[1px] ${plan.color}`}>{plan.label}</p>
         </div>
+        <p className={`mt-1 font-['Bebas_Neue'] text-[32px] leading-none tracking-tight ${plan.color}`}>
+          {plan.price}
+          {plan.price !== '$0' && plan.price !== 'Internal' && (
+            <span className="text-[14px] font-normal tracking-normal text-[#666666] ml-1">/mo</span>
+          )}
+        </p>
         <p className="mt-1 text-sm font-medium text-[#f0ede8]">{plan.outputs}</p>
       </div>
       <div className="flex-1 px-5 py-4">
