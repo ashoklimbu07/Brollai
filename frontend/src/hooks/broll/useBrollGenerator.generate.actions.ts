@@ -44,6 +44,7 @@ export async function handleGenerateBrollImpl(args: {
   setBrollPromptsPlain: (value: string) => void;
   setTotalScenes: (value: number) => void;
   setShowComingSoon: (value: boolean) => void;
+  onUsageLimitError: (err: unknown) => boolean;
 }) {
   const {
     script,
@@ -58,6 +59,7 @@ export async function handleGenerateBrollImpl(args: {
     setBrollPromptsPlain,
     setTotalScenes,
     setShowComingSoon,
+    onUsageLimitError,
   } = args;
 
   if (!selectedStyle) {
@@ -124,7 +126,8 @@ export async function handleGenerateBrollImpl(args: {
         setError(null);
       }
       console.log('B-roll generation cancelled');
-    } else {
+    } else if (!onUsageLimitError(err)) {
+      // Only set error message if it's NOT a usage limit error (modal handles that)
       setError(err instanceof Error ? err.message : 'Failed to generate B-roll');
       console.error('B-roll generation error:', err);
     }

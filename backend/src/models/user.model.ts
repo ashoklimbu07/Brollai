@@ -39,6 +39,31 @@ const usersSchema = new Schema(
             type: Date,
             required: false,
         },
+        // 'admin' gets full access; 'user' is subject to tier limits
+        role: {
+            type: String,
+            enum: ['admin', 'user'],
+            default: 'user',
+            required: true,
+        },
+        // Controls how many tool outputs the user can generate
+        tier: {
+            type: String,
+            enum: ['free', 'pro', 'ultra'],
+            default: 'free',
+            required: true,
+        },
+        // Total tool outputs used in the current monthly cycle
+        usageCount: {
+            type: Number,
+            default: 0,
+            required: true,
+        },
+        // When the monthly cycle resets (set to 1 month from first use)
+        usageResetAt: {
+            type: Date,
+            required: false,
+        },
     },
     {
         timestamps: true,

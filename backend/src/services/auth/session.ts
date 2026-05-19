@@ -6,6 +6,8 @@ export type SessionUser = {
     email: string;
     name: string;
     picture?: string;
+    role: 'admin' | 'user';
+    tier: 'free' | 'pro' | 'ultra';
 };
 
 type SessionTokenPayload = JwtPayload & {

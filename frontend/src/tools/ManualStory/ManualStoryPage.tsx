@@ -17,9 +17,11 @@ import {
   loadPersistedState,
   parseScenesFromTextarea,
 } from './manualStory.utils';
+import { useUsageLimit } from '../../context/UsageLimitContext';
 
 export function ManualStoryPage() {
   const persisted = loadPersistedState();
+  const { handleError: handleUsageLimitError } = useUsageLimit();
 
   const [characters, setCharacters] = useState<ManualCharacter[]>(() => persisted?.characters ?? getDefaultCharacters());
   const [scenesTextarea, setScenesTextarea] = useState(() => persisted?.scenesTextarea ?? '');
@@ -143,7 +145,9 @@ export function ManualStoryPage() {
         setError('Cancelled.');
         return;
       }
-      setError(e instanceof Error ? e.message : 'Failed to generate manual story prompts');
+      if (!handleUsageLimitError(e)) {
+        setError(e instanceof Error ? e.message : 'Failed to generate manual story prompts');
+      }
     } finally {
       setIsGenerating(false);
       abortRef.current = null;

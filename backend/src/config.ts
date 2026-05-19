@@ -8,6 +8,20 @@ dotenv.config({ path: resolve(__dirname, '../.env') });
 dotenv.config();
 
 const DEFAULT_SCENE_COUNT = Number(process.env.SCENE_COUNT ?? 30);
+
+// Comma-separated admin emails in .env: ADMIN_EMAILS=you@gmail.com,other@gmail.com
+export const ADMIN_EMAILS: string[] = (process.env.ADMIN_EMAILS || '')
+    .split(',')
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
+
+// Tool output limits per tier. -1 = unlimited.
+export const TIER_LIMITS: Record<string, number> = {
+    free:  3,
+    pro:   20,
+    ultra: -1,
+    admin: -1,
+};
 const readPoolKey = (index: number): string | undefined => {
   const primary = process.env[`GEMINI_KEY_${index}` as keyof NodeJS.ProcessEnv]?.trim();
   if (primary) return primary;

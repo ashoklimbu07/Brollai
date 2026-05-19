@@ -2,6 +2,32 @@ import { getAuthHeaders } from '../auth/authToken';
 
 const DEFAULT_LOCAL_API_BASE_URL = 'http://localhost:3000/api';
 
+/** Thrown when backend returns 429 — usage limit exceeded for the user's tier. */
+export class UsageLimitError extends Error {
+  readonly tier: string;
+  readonly used: number;
+  readonly limit: number;
+
+  constructor(tier: string, used: number, limit: number) {
+    super('Usage limit reached');
+    this.name = 'UsageLimitError';
+    this.tier = tier;
+    this.used = used;
+    this.limit = limit;
+  }
+}
+
+/** Parse a 429 response and throw UsageLimitError. */
+async function handleUsageLimit(response: Response): Promise<never> {
+  try {
+    const body = await response.json() as { tier?: string; used?: number; limit?: number };
+    throw new UsageLimitError(body.tier ?? 'free', body.used ?? 0, body.limit ?? 5);
+  } catch (e) {
+    if (e instanceof UsageLimitError) throw e;
+    throw new UsageLimitError('free', 0, 5);
+  }
+}
+
 const normalizeApiBaseUrl = (rawBaseUrl?: string): string => {
   const trimmed = (rawBaseUrl || DEFAULT_LOCAL_API_BASE_URL).replace(/\/+$/, '');
   return /\/api$/i.test(trimmed) ? trimmed : `${trimmed}/api`;
@@ -146,13 +172,14 @@ export const apiService = {
     });
 
     if (!response.ok) {
+      if (response.status === 429) await handleUsageLimit(response);
       const error = await parseJsonResponse<{ error?: string; details?: string }>(
-        response,
-        'Script translation',
-      );
-      const details = typeof error.details === 'string' ? error.details : '';
-      throw new Error(details ? `${error.error}: ${details}` : error.error || 'Translation failed');
-    }
+            response,
+            'Script translation',
+          );
+          const details = typeof error.details === 'string' ? error.details : '';
+          throw new Error(details ? `${error.error}: ${details}` : error.error || 'Translation failed');
+        }
 
     return parseJsonResponse<TranslateScriptResponse>(response, 'Script translation');
   },
@@ -191,6 +218,9 @@ export const apiService = {
         console.log('📡 Frontend: Received B-roll response, status:', response.status);
 
         if (!response.ok) {
+          // Check usage limit before any other error handling
+          if (response.status === 429) await handleUsageLimit(response);
+
           const error = await parseJsonResponse<{ error?: string; details?: string }>(
             response,
             'B-roll generation',
@@ -277,6 +307,7 @@ export const apiService = {
         });
 
         if (!response.ok) {
+          if (response.status === 429) await handleUsageLimit(response);
           const error = await parseJsonResponse<{ error?: string; details?: string }>(
             response,
             'Manual story generation',

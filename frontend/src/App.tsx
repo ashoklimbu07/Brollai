@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { GeneratePage } from './generate/GeneratePage';
 import { LandingPage } from './landingpage/LandingPage';
 import { AccountSettingsPage } from './account/Settings/SettingsPage';
-import { ThemePage } from './account/Theme/ThemePage';
+import { PricingPage } from './account/Pricing/PricingPage';
 import { LoginPage } from './auth/Login/LoginPage';
 import { SignupPage } from './auth/Signup/SignupPage';
 import { GoogleAuthSuccessPage } from './auth/GoogleAuthSuccess/GoogleAuthSuccessPage';
@@ -27,14 +27,14 @@ function App() {
       <Route path="/genrate" element={<ProtectedRoute><Navigate to="/tools/generate" replace /></ProtectedRoute>} />
       <Route path="/tools/generate" element={<ProtectedRoute><GeneratePage /></ProtectedRoute>} />
       <Route path="/tools/video-scene-analyzer" element={<ProtectedRoute><VideoSceneAnalyzerPage /></ProtectedRoute>} />
-      {/* /tools/script-writer kept as redirect for backward compat */}
       <Route path="/tools/script-writer" element={<ProtectedRoute><Navigate to="/script-translator" replace /></ProtectedRoute>} />
       <Route path="/script-translator" element={<ProtectedRoute><ScriptTranslatorPage /></ProtectedRoute>} />
       <Route path="/tools/prompt-cleaner" element={<ProtectedRoute><PromptCleanerPage /></ProtectedRoute>} />
       <Route path="/tools/manual-story" element={<ProtectedRoute><ManualStoryPage /></ProtectedRoute>} />
       <Route path="/extra/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
       <Route path="/extra/media-library" element={<ProtectedRoute><MediaLibraryPage /></ProtectedRoute>} />
-      <Route path="/account/theme" element={<ProtectedRoute><ThemePage /></ProtectedRoute>} />
+      <Route path="/account/pricing" element={<ProtectedRoute><PricingPage /></ProtectedRoute>} />
+      <Route path="/account/theme" element={<ProtectedRoute><Navigate to="/account/pricing" replace /></ProtectedRoute>} />
       <Route path="/account/settings" element={<ProtectedRoute><AccountSettingsPage /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

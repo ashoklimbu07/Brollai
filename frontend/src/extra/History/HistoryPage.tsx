@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Download, Eye, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Download, Eye, Lock, Trash2 } from 'lucide-react';
 import { apiService, type HistoryItem } from '../../services/api.service';
 import { ConfirmModal } from '../../tools/ManualStory/ConfirmModal';
 import { WorkspaceLayout } from '../../workspace/WorkspaceLayout';
+import { useAuth } from '../../auth/AuthContext';
 
 const TOOL_LABELS: Record<string, string> = {
   'broll.generate': 'Generate B-roll',
@@ -311,6 +313,82 @@ function HistoryDetailsSkeleton() {
 }
 
 export function HistoryPage() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const isFree = user?.role !== 'admin' && user?.tier === 'free';
+
+  // Free tier — show blurred preview with upgrade overlay
+  if (isFree) {
+    return (
+      <WorkspaceLayout>
+        <section className="relative h-full w-full overflow-hidden border border-[#222222] bg-[#111111] p-4 shadow-[0_20px_60px_rgba(0,0,0,0.35)] sm:p-6 md:p-8 lg:p-10">
+          {/* Blurred fake content */}
+          <div className="pointer-events-none select-none blur-sm opacity-40">
+            <div className="mb-5">
+              <h1 className="font-['Bebas_Neue'] text-[30px] tracking-[1px] text-[#f0ede8] sm:text-[36px]">History</h1>
+              <p className="mt-1 text-sm text-[#8a8a8a]">View generated outputs from all tools with labels and download as TXT.</p>
+            </div>
+            <div className="mb-4 grid grid-cols-1 gap-3 border border-[#242424] bg-[#131313] p-3 sm:grid-cols-3">
+              <div className="flex flex-col gap-1">
+                <span className="text-[11px] uppercase tracking-[1.2px] text-[#9b9b9b]">Time</span>
+                <div className="h-8 border border-[#2c2c2c] bg-[#191919]" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="text-[11px] uppercase tracking-[1.2px] text-[#9b9b9b]">Tool</span>
+                <div className="h-8 border border-[#2c2c2c] bg-[#191919]" />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-[360px_1fr]">
+              <div className="space-y-2 border border-[#242424] bg-[#131313] p-3">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div key={i} className="border border-[#242424] bg-[#171717] p-3">
+                    <div className="h-3 w-2/3 bg-[#242424] rounded" />
+                    <div className="mt-2 h-3 w-1/2 bg-[#212121] rounded" />
+                    <div className="mt-2 h-3 w-3/4 bg-[#1c1c1c] rounded" />
+                  </div>
+                ))}
+              </div>
+              <div className="border border-[#242424] bg-[#131313] p-4">
+                <div className="mb-4 border-b border-[#242424] pb-3">
+                  <div className="h-3 w-32 bg-[#242424] rounded" />
+                  <div className="mt-2 h-3 w-24 bg-[#212121] rounded" />
+                </div>
+                <div className="h-48 border border-[#252525] bg-[#111111] p-3">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <div key={i} className="mt-2 h-2.5 bg-[#1d1d1d] rounded" style={{ width: `${70 + (i % 3) * 10}%` }} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Upgrade overlay */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-full max-w-md border border-[#e8380d]/30 bg-[#0d0d0d]/95 p-8 text-center shadow-[0_0_60px_rgba(232,56,13,0.12)]">
+              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center border border-[#e8380d]/30 bg-[#e8380d]/10">
+                <Lock size={20} className="text-[#e8380d]" />
+              </div>
+              <h2 className="font-['Bebas_Neue'] text-[28px] tracking-[1px] text-[#f0ede8]">History Locked</h2>
+              <p className="mt-2 text-sm text-[#888888] leading-relaxed">
+                Generation history is available on <span className="text-[#34d399] font-medium">Pro</span> and above.
+                Upgrade to save and revisit all your past outputs.
+              </p>
+              <div className="mt-6 flex flex-col gap-3">
+                <button
+                  type="button"
+                  onClick={() => navigate('/account/pricing')}
+                  className="w-full border border-[#e8380d]/50 bg-[#e8380d]/10 py-3 text-xs font-semibold uppercase tracking-[2px] text-[#e8380d] transition-all hover:bg-[#e8380d]/20 hover:border-[#e8380d]"
+                >
+                  View Plans → Upgrade
+                </button>
+                <p className="text-[10px] text-[#444444] uppercase tracking-[1.5px]">Contact admin for access</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </WorkspaceLayout>
+    );
+  }
   const [items, setItems] = useState<HistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

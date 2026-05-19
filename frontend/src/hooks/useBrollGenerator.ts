@@ -17,10 +17,12 @@ import {
   handleClearClickImpl,
   handleDeleteBrollClickImpl,
 } from './broll/useBrollGenerator.storage.actions';
+import { useUsageLimit } from '../context/UsageLimitContext';
 
 export type { BrollStyle } from './broll/brollTypes';
 
 export const useBrollGenerator = () => {
+  const { handleError: handleUsageLimitError } = useUsageLimit();
   // Load from localStorage on mount
   const [script, setScriptState] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -89,6 +91,7 @@ export const useBrollGenerator = () => {
       setBrollPromptsPlain: setBrollPromptsPlainState,
       setTotalScenes,
       setShowComingSoon,
+      onUsageLimitError: handleUsageLimitError,
     });
   };
 

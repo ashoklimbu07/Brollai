@@ -10,6 +10,7 @@ import { ScriptTranslatorResult } from './ScriptTranslatorResult';
 import { useScriptInput, useTranslatedOutput } from './scriptTranslator.hooks';
 import { downloadTextFile } from './scriptTranslator.utils';
 import { MAX_CHARS, type TranslationDirection } from './scriptTranslator.types';
+import { useUsageLimit } from '../../context/UsageLimitContext';
 
 export function ScriptTranslatorPage() {
   const [text, setText] = useScriptInput();
@@ -19,6 +20,7 @@ export function ScriptTranslatorPage() {
   const [error, setError] = useState<string | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const { handleError: handleUsageLimitError } = useUsageLimit();
 
   // Confirm dialogs
   const [showClearModal, setShowClearModal] = useState(false);
@@ -61,7 +63,9 @@ export function ScriptTranslatorPage() {
       setPreviewOpen(false);
     } catch (e) {
       if (e instanceof DOMException && e.name === 'AbortError') return;
-      setError(e instanceof Error ? e.message : 'Translation failed. Please try again.');
+      if (!handleUsageLimitError(e)) {
+        setError(e instanceof Error ? e.message : 'Translation failed. Please try again.');
+      }
     } finally {
       setIsTranslating(false);
       abortRef.current = null;

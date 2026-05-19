@@ -1,4 +1,5 @@
 import { getAuthHeaders } from '../../../auth/authToken';
+import { UsageLimitError } from '../../../services/api.service';
 import type { Scene } from '../src/types';
 
 const DEFAULT_LOCAL_API_BASE_URL = 'http://localhost:3000/api';
@@ -23,7 +24,16 @@ async function postJson<TResponse>(path: string, body: Record<string, unknown>):
   });
 
   const payload = await response.json().catch(() => ({}));
+
   if (!response.ok) {
+    // Surface usage limit as a typed error so the UI can show the upgrade modal
+    if (response.status === 429) {
+      throw new UsageLimitError(
+        payload?.tier ?? 'free',
+        payload?.used ?? 0,
+        payload?.limit ?? 5,
+      );
+    }
     const errorMessage =
       typeof payload?.details === 'string'
         ? payload.details

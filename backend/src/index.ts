@@ -11,6 +11,7 @@ import { videoSceneAnalyzerRoutes } from './routes/videoSceneAnalyzer.routes.js'
 import { renderHealthStatusPage } from './components/healthStatusPage.js';
 import { authRoutes } from './routes/auth.routes.js';
 import { requireAuth } from './middleware/requireAuth.js';
+import { requireTier } from './middleware/requireTier.js';
 import { connectDB } from './config/db.js';
 import { historyRoutes } from './routes/history.routes.js';
 import { scriptTranslatorRoutes } from './routes/scriptTranslator.routes.js';
@@ -110,13 +111,13 @@ app.use((req, res, next) => {
     next();
 });
 
-// Routes
-app.use('/api/broll', requireAuth, brollRoutes);
-app.use('/api/manual-story', requireAuth, manualStoryRoutes);
-app.use('/api/video-scene-analyzer', requireAuth, videoSceneAnalyzerRoutes);
+// requireTier runs after requireAuth on all tool generation routes
+app.use('/api/broll', requireAuth, requireTier, brollRoutes);
+app.use('/api/manual-story', requireAuth, requireTier, manualStoryRoutes);
+app.use('/api/video-scene-analyzer', requireAuth, requireTier, videoSceneAnalyzerRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/history', requireAuth, historyRoutes);
-app.use('/api/script-translator', requireAuth, scriptTranslatorRoutes);
+app.use('/api/script-translator', requireAuth, requireTier, scriptTranslatorRoutes);
 
 app.get('/api/health', (req, res) => {
     const brollKeys = getBrollApiKeys();
