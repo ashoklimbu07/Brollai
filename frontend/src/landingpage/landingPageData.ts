@@ -1,49 +1,42 @@
 export const tickerItems = [
-  'Trending B-Roll',
-  'AI Generated',
-  'YouTube Shorts',
-  'TikTok Ready',
-  '9:16 Format',
-  'Viral Content',
-  'Auto Captions',
-  'One Click Export',
+  'B-Roll Generator',
+  'Scene Analyzer',
+  'Script Translator',
+  'Manual Story Builder',
+  'AI Prompt Toolkit',
+  'Generation History',
+  'Short-Form Content',
+  'Built for Creators',
 ];
 
 export const stats = [
-  { value: '2M+', label: 'B-Roll Clips in Library' },
-  { value: '98%', label: 'Trend Match Accuracy' },
-  { value: '8s', label: 'Avg Generation Time' },
-  { value: '4K', label: 'Max Export Quality' },
+  { value: '5', label: 'AI-Powered Tools' },
+  { value: '3x', label: 'Faster Content Prep' },
+  { value: '$0', label: 'To Start' },
+  { value: '∞', label: 'Ideas. One Platform.' },
 ];
 
 export const steps = [
   {
     number: '01',
     icon: '✍️',
-    title: 'Describe Your Content',
+    title: 'Describe Your Idea',
     description:
-      'Type a topic, paste your script, or drop your voiceover. BrollAI reads your intent and detects what kind of visuals will hit hardest.',
+      'Type a topic, paste a script, or drop a concept. BrollAI understands your intent and routes it to the right tool automatically.',
   },
   {
     number: '02',
-    icon: '🔥',
-    title: 'AI Finds Trending B-Roll',
+    icon: '⚡',
+    title: 'AI Builds the Output',
     description:
-      'Our model scans trending content across TikTok & Shorts daily, matching visuals to your topic using semantic search + viral score weighting.',
+      'Generate a full B-roll shot list, analyze a video scene, translate your script, or build a story — all in seconds, not hours.',
   },
   {
     number: '03',
-    icon: '✂️',
-    title: 'Auto-Edits & Syncs',
-    description:
-      'Clips are trimmed, sequenced, and synced to your audio or captions automatically. Transitions, pacing, and cuts - all handled.',
-  },
-  {
-    number: '04',
     icon: '🚀',
-    title: 'Export & Post',
+    title: 'Bulk Export & Post',
     description:
-      'Download 9:16 ready clips at up to 4K. Optimized for TikTok, YouTube Shorts, and Instagram Reels - with captions baked in.',
+      'Copy, export, or save your outputs. Every generation is stored in your history so you can revisit, tweak, and reuse anytime.',
   },
 ];
 
@@ -52,7 +45,7 @@ export const features = [
     tag: 'Generate',
     title: 'B-Roll Generator',
     description:
-      'Describe your topic and let AI build a full B-roll shot list — complete with scene cues, visual styles, and platform-ready prompts for TikTok, Shorts, and Reels.',
+      'Already-viral templates built in. Just paste your prompt and get a full scene-by-scene B-roll shot list — instantly.',
     icon: '✨',
     wide: false,
   },
@@ -60,7 +53,7 @@ export const features = [
     tag: 'Analyze',
     title: 'Video Scene Analyzer',
     description:
-      'Drop a video and get a breakdown of every scene — shot types, pacing, visual hooks, and re-edit suggestions. Know exactly what is working before you post.',
+      'Paste any competitor or viral video script. Reverse engineer it to get the exact AI prompts, scene structure, and visual style behind it — then replicate or beat it.',
     icon: '🔍',
     wide: false,
   },
@@ -68,7 +61,7 @@ export const features = [
     tag: 'Translate',
     title: 'Script Translator',
     description:
-      'Translate your video script into any language while preserving tone, slang, and platform-specific phrasing. Built for creators who post globally.',
+      'Translate your script into any language without losing tone, slang, or rhythm. Built for creators who publish across regions.',
     icon: '🌐',
     wide: false,
   },
@@ -76,43 +69,17 @@ export const features = [
     tag: 'Story',
     title: 'Manual Story Builder',
     description:
-      'Build narrative-driven story scripts manually — control scene order, emotional beats, and voiceover timing. Great for long-form storytelling cut into shorts.',
+      'Manually write your story keeping consistent characters, scene continuity, and B-roll flow — full control over narrative without losing visual coherence.',
     icon: '📖',
     wide: false,
   },
   {
-    tag: 'History',
+    tag: 'Pro+',
     title: 'Generation History',
     description:
-      'Every generation you run is saved. Go back, re-run, tweak, or export past outputs without starting from scratch. Available on Pro and Ultra plans.',
+      'Every output you run is saved automatically. Revisit past generations, re-run with tweaks, or bulk export — no starting from scratch.',
     icon: '🗂️',
     wide: true,
-  },
-];
-
-export const platforms = [
-  {
-    name: 'TikTok',
-    icon: '🎵',
-    platform: 'tiktok',
-    specs: ['9:16 vertical - Up to 4K', 'Trend audio sync', 'Duet-ready format', 'Max 3-min clips'],
-  },
-  {
-    name: 'YouTube Shorts',
-    icon: '▶️',
-    platform: 'yt',
-    specs: ['9:16 vertical - 60s max', 'Thumbnail auto-gen', 'Chapter markers', 'SEO title suggestions'],
-  },
-  {
-    name: 'Instagram Reels',
-    icon: '📸',
-    platform: 'reels',
-    specs: [
-      '9:16 vertical - 90s max',
-      'Story crosspost ready',
-      'Branded watermark removal',
-      'Cover frame selector',
-    ],
   },
 ];
 

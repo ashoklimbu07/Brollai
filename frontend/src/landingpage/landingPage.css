@@ -66,3 +66,17 @@ html {
 .btn-shine:hover::after {
   transform: translateX(100%);
 }
+
+/* Vertical auto-scroll for hero image strip */
+@keyframes scrollUp {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.animate-scroll-up {
+  animation: scrollUp 8s linear infinite;
+}
