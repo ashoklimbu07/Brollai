@@ -64,6 +64,12 @@ const usersSchema = new Schema(
             type: Date,
             required: false,
         },
+        // When the current tier cycle started — used to calculate 30-day renewal
+        // Free users: defaults to createdAt. Pro/Ultra: set when admin upgrades them.
+        tierStartedAt: {
+            type: Date,
+            required: false,
+        },
     },
     {
         timestamps: true,

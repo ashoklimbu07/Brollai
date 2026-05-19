@@ -6,7 +6,7 @@ import { PricingPage } from './account/Pricing/PricingPage';
 import { LoginPage } from './auth/Login/LoginPage';
 import { SignupPage } from './auth/Signup/SignupPage';
 import { GoogleAuthSuccessPage } from './auth/GoogleAuthSuccess/GoogleAuthSuccessPage';
-import { ProtectedRoute, PublicOnlyRoute } from './auth/AuthRouteGuards';
+import { ProtectedRoute, PublicOnlyRoute, AdminRoute } from './auth/AuthRouteGuards';
 import { HistoryPage } from './extra/History/HistoryPage';
 import { MediaLibraryPage } from './extra/MediaLibrary/MediaLibraryPage';
 import { ManualStoryPage } from './tools/ManualStory/ManualStoryPage';
@@ -14,6 +14,7 @@ import { PromptCleanerPage } from './tools/PromptCleaner/PromptCleanerPage';
 import { ScriptTranslatorPage } from './tools/ScriptTranslator/ScriptTranslatorPage';
 import { VideoSceneAnalyzerPage } from './tools/VideoSceneAnalyzer/VideoSceneAnalyzerPage';
 import { WorkspaceHomePage } from './workspace/WorkspaceHomePage';
+import { AdminPage } from './admin/AdminPage';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
       <Route path="/account/pricing" element={<ProtectedRoute><PricingPage /></ProtectedRoute>} />
       <Route path="/account/theme" element={<ProtectedRoute><Navigate to="/account/pricing" replace /></ProtectedRoute>} />
       <Route path="/account/settings" element={<ProtectedRoute><AccountSettingsPage /></ProtectedRoute>} />
+      <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

@@ -25,6 +25,17 @@ export function ProtectedRoute({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
+export function AdminRoute({ children }: { children: ReactNode }) {
+  const { isLoading, isAuthenticated, user } = useAuth();
+  const location = useLocation();
+
+  if (isLoading) return <FullPageLoader />;
+  if (!isAuthenticated) return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+  if (user?.role !== 'admin') return <Navigate to="/workspace" replace />;
+
+  return <>{children}</>;
+}
+
 export function PublicOnlyRoute({ children }: { children: ReactNode }) {
   const { isLoading, isAuthenticated } = useAuth();
 

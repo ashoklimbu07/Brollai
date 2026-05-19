@@ -135,51 +135,79 @@ export function AccountSettingsPage() {
           </dl>
 
           {/* Current plan card */}
-          <div className={`mt-6 border ${plan.border} ${plan.glow} overflow-hidden`}>
-            {/* Card header */}
+          <div className={`mt-6 overflow-hidden border ${plan.border} ${plan.glow}`}>
+            {/* Header strip */}
             <div className={`${plan.bg} flex items-center justify-between border-b ${plan.border} px-5 py-3`}>
-              <div>
-                <p className="text-[10px] uppercase tracking-[2.5px] text-[#555555]">Current Plan</p>
-                <p className={`mt-0.5 font-['Bebas_Neue'] text-[22px] tracking-[1px] ${plan.color}`}>{plan.label}</p>
+              <div className="flex items-center gap-3">
+                <p className={`font-['Bebas_Neue'] text-[26px] tracking-[1px] ${plan.color}`}>{plan.label}</p>
+                <span className="text-[10px] uppercase tracking-[2px] text-[#555555]">Current Plan</span>
               </div>
-              <div className="flex items-center gap-2 rounded-full border border-[#2a2a2a] bg-[#111111] px-3 py-1.5">
+              <div className="flex items-center gap-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#22c55e] shadow-[0_0_6px_rgba(34,197,94,0.8)] animate-pulse" />
-                <span className="text-[10px] uppercase tracking-[1.5px] text-[#666666]">Active</span>
+                <span className="text-[10px] uppercase tracking-[1.5px] text-[#22c55e]">Active</span>
               </div>
             </div>
-            {/* Features list */}
-            <div className="bg-[#0f0f0f] px-5 py-4">
-              <ul className="space-y-2.5">
-                {plan.features.map((feature) => (
-                  <li key={feature.text} className="flex items-center gap-3 text-sm">
-                    <span className={`shrink-0 text-sm font-bold leading-none ${feature.locked ? 'text-[#444444]' : plan.color}`}>
-                      {feature.locked ? '✕' : '✓'}
-                    </span>
-                    <span className={feature.locked ? 'text-[#444444] line-through' : 'text-[#c0c0c0]'}>
-                      {feature.text}
-                    </span>
-                    {feature.locked && (
-                      <span className="ml-auto shrink-0 border border-[#333333] px-1.5 py-0.5 text-[9px] uppercase tracking-[1px] text-[#555555]">
-                        Pro+
+
+            {/* Body — features left, action right */}
+            <div className="flex flex-col gap-0 sm:flex-row">
+              {/* Features */}
+              <div className="flex-1 bg-[#0d0d0d] px-5 py-4">
+                <ul className="space-y-2">
+                  {plan.features.map((feature) => (
+                    <li key={feature.text} className="flex items-center gap-2.5 text-sm">
+                      <span className={`shrink-0 text-xs font-bold ${feature.locked ? 'text-[#3a3a3a]' : plan.color}`}>
+                        {feature.locked ? '✕' : '✓'}
                       </span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-              {/* Upgrade CTA for free tier */}
-              {planKey === 'free' && (
-                <button
-                  type="button"
-                  onClick={() => navigate('/account/pricing')}
-                  className="mt-4 w-full border border-[#e8380d]/40 bg-[#e8380d]/8 py-2 text-xs font-semibold uppercase tracking-[1.5px] text-[#e8380d] transition-all hover:bg-[#e8380d]/15 hover:border-[#e8380d]/70"
-                >
-                  View Plans → Upgrade
-                </button>
-              )}
+                      <span className={feature.locked ? 'text-[#3a3a3a] line-through' : 'text-[#b0b0b0]'}>
+                        {feature.text}
+                      </span>
+                      {feature.locked && (
+                        <span className="ml-auto text-[9px] uppercase tracking-[1px] text-[#444444]">Pro+</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Right action panel */}
+              <div className={`flex flex-col gap-3 border-t sm:border-t-0 sm:border-l ${plan.border} bg-[#0a0a0a] px-5 py-4 sm:w-56 sm:shrink-0`}>
+                <p className="text-[9px] uppercase tracking-[2px] text-[#444444]">Plan Actions</p>
+                {planKey === 'admin' && (
+                  <button
+                    type="button"
+                    onClick={() => navigate('/admin')}
+                    className={`flex items-center gap-2 border ${plan.border} bg-[#e8380d]/8 px-4 py-2.5 text-sm font-semibold ${plan.color} transition-all hover:bg-[#e8380d]/18 hover:shadow-[0_0_20px_rgba(232,56,13,0.15)] whitespace-nowrap`}
+                  >
+                    <span>👑</span>
+                    <span>Manage Users</span>
+                    <span className="ml-auto text-[#e8380d]/50">→</span>
+                  </button>
+                )}
+                {planKey === 'free' && (
+                  <button
+                    type="button"
+                    onClick={() => navigate('/account/pricing')}
+                    className="flex items-center gap-2 border border-[#333333] bg-[#151515] px-4 py-2.5 text-sm font-semibold text-[#888888] transition-all hover:border-[#e8380d]/40 hover:text-[#e8380d] whitespace-nowrap"
+                  >
+                    <span>View Plans</span>
+                    <span className="ml-auto">→</span>
+                  </button>
+                )}
+                {(planKey === 'pro' || planKey === 'ultra') && (
+                  <button
+                    type="button"
+                    onClick={() => navigate('/account/pricing')}
+                    className={`flex items-center gap-2 border ${plan.border} bg-transparent px-4 py-2.5 text-sm font-semibold ${plan.color} opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap`}
+                  >
+                    <span>View Plans</span>
+                    <span className="ml-auto">→</span>
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* Logout — outside the plan card, orange theme */}
+          {/* Logout — orange theme */}
           <div className="mt-6">
             <button
               type="button"

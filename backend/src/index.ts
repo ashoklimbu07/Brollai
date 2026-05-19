@@ -12,9 +12,11 @@ import { renderHealthStatusPage } from './components/healthStatusPage.js';
 import { authRoutes } from './routes/auth.routes.js';
 import { requireAuth } from './middleware/requireAuth.js';
 import { requireTier } from './middleware/requireTier.js';
+import { requireAdmin } from './middleware/requireAdmin.js';
 import { connectDB } from './config/db.js';
 import { historyRoutes } from './routes/history.routes.js';
 import { scriptTranslatorRoutes } from './routes/scriptTranslator.routes.js';
+import { adminRoutes } from './routes/admin.routes.js';
 
 function normalizeOrigin(origin: string): string {
     return origin.trim().replace(/\/+$/, '').toLowerCase();
@@ -93,7 +95,7 @@ app.use(
 
             callback(new Error(`CORS blocked for origin: ${origin}`));
         },
-        methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization'],
         credentials: true,
     }),
@@ -118,6 +120,7 @@ app.use('/api/video-scene-analyzer', requireAuth, requireTier, videoSceneAnalyze
 app.use('/api/auth', authRoutes);
 app.use('/api/history', requireAuth, historyRoutes);
 app.use('/api/script-translator', requireAuth, requireTier, scriptTranslatorRoutes);
+app.use('/api/admin', requireAuth, requireAdmin, adminRoutes);
 
 app.get('/api/health', (req, res) => {
     const brollKeys = getBrollApiKeys();
