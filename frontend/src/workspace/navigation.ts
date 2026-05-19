@@ -10,7 +10,7 @@ export type WorkspaceNavItem = {
 export const toolsNavItems: WorkspaceNavItem[] = [
   { icon: Sparkles, label: 'Generate B-roll', path: '/tools/generate' },
   { icon: Search, label: 'Video Scene Analyzer', path: '/tools/video-scene-analyzer' },
-  { icon: Languages, label: 'Script Translator', path: '/tools/script-writer' },
+  { icon: Languages, label: 'Script Translator', path: '/script-translator' },
   { icon: BookOpen, label: 'Manual Story', path: '/tools/manual-story' },
   { icon: Eraser, label: 'Prompt Cleaner', path: '/tools/prompt-cleaner' },
 ];

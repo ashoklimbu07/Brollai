@@ -28,6 +28,7 @@ function App() {
       <Route path="/tools/generate" element={<ProtectedRoute><GeneratePage /></ProtectedRoute>} />
       <Route path="/tools/video-scene-analyzer" element={<ProtectedRoute><VideoSceneAnalyzerPage /></ProtectedRoute>} />
       <Route path="/tools/script-writer" element={<ProtectedRoute><ScriptWriterPage /></ProtectedRoute>} />
+      <Route path="/script-translator" element={<ProtectedRoute><ScriptWriterPage /></ProtectedRoute>} />
       <Route path="/tools/prompt-cleaner" element={<ProtectedRoute><PromptCleanerPage /></ProtectedRoute>} />
       <Route path="/tools/manual-story" element={<ProtectedRoute><ManualStoryPage /></ProtectedRoute>} />
       <Route path="/extra/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />

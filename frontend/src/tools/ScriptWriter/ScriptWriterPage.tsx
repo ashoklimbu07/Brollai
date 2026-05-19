@@ -215,10 +215,10 @@ export function ScriptWriterPage() {
         </div>
 
         {/* Textarea */}
-        <div className="group relative overflow-hidden rounded-[4px] border border-[#2f2f2f] bg-[#121212] transition-[border-color,box-shadow,background-color] duration-300 focus-within:border-[#ff5a2f] focus-within:bg-[#161110] focus-within:shadow-[0_0_0_1px_rgba(255,90,47,0.62),0_0_0_4px_rgba(255,90,47,0.30),0_0_36px_rgba(255,90,47,0.40),0_0_56px_rgba(255,90,47,0.22)]">
+        <div className="group relative overflow-hidden rounded-[4px] border border-[#2f2f2f] bg-[#121212] transition-[border-color,box-shadow,background-color] duration-300 focus-within:border-[#ff5a2f] focus-within:bg-[#141110] focus-within:shadow-[0_0_0_1px_rgba(255,90,47,0.35),0_0_16px_rgba(255,90,47,0.18)]">
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-[4px] bg-[radial-gradient(130%_110%_at_50%_50%,rgba(255,90,47,0.46),transparent_72%)] opacity-0 transition-opacity duration-300 group-focus-within:opacity-100"
+            className="pointer-events-none absolute inset-0 rounded-[4px] bg-[radial-gradient(130%_110%_at_50%_50%,rgba(255,90,47,0.12),transparent_72%)] opacity-0 transition-opacity duration-300 group-focus-within:opacity-100"
           />
           <div className="relative z-10 m-[1px] rounded-[3px] bg-[#121212]">
             <textarea
