@@ -8,15 +8,13 @@ type WorkspaceLayoutProps = {
   headerActions?: ReactNode;
 };
 
-const DEFAULT_LOCAL_API_BASE_URL = 'http://localhost:3000/api';
-
-const normalizeApiBaseUrl = (rawBaseUrl?: string): string => {
-  const trimmed = (rawBaseUrl || DEFAULT_LOCAL_API_BASE_URL).replace(/\/+$/, '');
-  return /\/api$/i.test(trimmed) ? trimmed : `${trimmed}/api`;
-};
-
-const API_BASE_URL = normalizeApiBaseUrl(import.meta.env.VITE_API_BASE_URL);
-const WAKE_UP_SERVER_URL = `${API_BASE_URL}/health`;
+// Badge config per plan — shown next to BROLLAI logo in sidebar
+const PLAN_BADGE = {
+  admin: { label: 'Admin', icon: '👑', className: 'border-[#e8380d]/40 bg-[#e8380d]/10 text-[#e8380d]' },
+  ultra: { label: 'Ultra', icon: '⚡', className: 'border-[#a78bfa]/40 bg-[#a78bfa]/10 text-[#a78bfa]' },
+  pro:   { label: 'Pro',   icon: '🚀', className: 'border-[#34d399]/40 bg-[#34d399]/10 text-[#34d399]' },
+  free:  { label: 'Free',  icon: '✦',  className: 'border-[#444444] bg-[#1a1a1a] text-[#666666]' },
+} as const;
 
 function NavSection({
   title,
@@ -63,9 +61,10 @@ export function WorkspaceLayout({ children, headerActions }: WorkspaceLayoutProp
   const [firstName = 'User'] = fullName.split(/\s+/).filter(Boolean);
   const userInitial = firstName.charAt(0).toUpperCase() || 'U';
   const profilePicture = user?.picture?.trim() || '';
-  const handleWakeUpServerClick = () => {
-    window.open(WAKE_UP_SERVER_URL, '_blank', 'noopener,noreferrer');
-  };
+
+  // Pick badge based on role first, then tier
+  const badgeKey = user?.role === 'admin' ? 'admin' : (user?.tier ?? 'free');
+  const badge = PLAN_BADGE[badgeKey];
 
   return (
     <div className="h-screen overflow-hidden bg-[#0b0b0b] text-[#f0ede8] font-['DM_Sans']">
@@ -81,9 +80,13 @@ export function WorkspaceLayout({ children, headerActions }: WorkspaceLayoutProp
               <p className="font-['Bebas_Neue'] text-[24px] tracking-[1.5px]">
                 Broll<span className="text-[#e8380d]">AI</span>
               </p>
-              <span className="border border-[#e8380d]/25 bg-[#e8380d]/12 px-2 py-0.5 text-[9px] uppercase tracking-[2px] text-[#e8380d]">
-                Beta
-              </span>
+              <button
+                type="button"
+                onClick={() => navigate('/account/settings')}
+                className={`border px-2 py-0.5 text-[9px] uppercase tracking-[2px] font-medium transition-opacity hover:opacity-70 ${badge.className}`}
+              >
+                {badge.icon} {badge.label}
+              </button>
             </div>
           </div>
 
@@ -104,13 +107,6 @@ export function WorkspaceLayout({ children, headerActions }: WorkspaceLayoutProp
               <p className="font-['Bebas_Neue'] text-[18px] tracking-[2px] text-[#888888]">
                 Creator <span className="text-[#f0ede8]">Workspace</span>
               </p>
-              <button
-                type="button"
-                onClick={handleWakeUpServerClick}
-                className="inline-flex items-center gap-1.5 border border-[#2f2f2f] bg-[#161616] px-3 py-1.5 text-xs font-medium text-[#b7b7b7] transition-colors hover:border-[#e8380d]/60 hover:text-[#f0ede8]"
-              >
-                Wake Up Server
-              </button>
               {headerActions}
             </div>
             <div className="inline-flex items-center gap-2">
@@ -133,7 +129,7 @@ export function WorkspaceLayout({ children, headerActions }: WorkspaceLayoutProp
             </div>
           </header>
 
-          <div className="flex-1 min-h-0 overflow-hidden px-3 py-4 sm:px-6 sm:py-8 lg:px-8 lg:py-9">{children}</div>
+          <div className="flex-1 min-h-0 overflow-y-auto px-3 py-4 sm:px-6 sm:py-8 lg:px-8 lg:py-9">{children}</div>
         </main>
       </div>
     </div>

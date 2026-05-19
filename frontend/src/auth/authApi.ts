@@ -5,6 +5,8 @@ export type AuthUser = {
   email: string;
   name: string;
   picture?: string;
+  role: 'admin' | 'user';
+  tier: 'free' | 'pro' | 'ultra';
 };
 
 const DEFAULT_LOCAL_API_BASE_URL = 'http://localhost:3000/api';

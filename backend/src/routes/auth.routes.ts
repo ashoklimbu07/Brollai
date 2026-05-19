@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import { Router, type Request, type Response } from 'express';
 import { readSessionUser, SESSION_COOKIE_NAME, signSession } from '../services/auth/session.js';
 import { UserModel } from '../models/user.model.js';
+import { ADMIN_EMAILS } from '../config.js';
 
 const router = Router();
 
@@ -151,6 +152,8 @@ router.post('/signup', async (req: Request, res: Response) => {
             id: createdUser._id.toString(),
             email: createdUser.email,
             name: createdUser.name,
+            role: createdUser.role,
+            tier: createdUser.tier,
             ...(createdUser.picture ? { picture: createdUser.picture } : {}),
         };
         const sessionToken = signSession(sessionUser);
@@ -269,11 +272,14 @@ router.get('/google/callback', async (req: Request, res: Response) => {
         }
 
         if (!user) {
+            // Auto-assign admin role if email is in ADMIN_EMAILS env list
+            const assignedRole = ADMIN_EMAILS.includes(email) ? 'admin' : 'user';
             user = await UserModel.create({
                 name: normalizedName,
                 email,
                 provider: 'google',
                 googleId,
+                role: assignedRole,
                 ...(profile.picture ? { picture: profile.picture } : {}),
                 lastLoginAt: now,
             });
@@ -289,6 +295,8 @@ router.get('/google/callback', async (req: Request, res: Response) => {
             if (user.provider !== 'google') {
                 user.provider = 'google';
             }
+            // Re-sync admin role on every login in case ADMIN_EMAILS changed
+            user.role = ADMIN_EMAILS.includes(email) ? 'admin' : user.role;
             await user.save();
         }
 
@@ -296,6 +304,8 @@ router.get('/google/callback', async (req: Request, res: Response) => {
             id: user._id.toString(),
             email: user.email,
             name: user.name,
+            role: user.role,
+            tier: user.tier,
             ...(user.picture ? { picture: user.picture } : {}),
         };
 
@@ -314,14 +324,38 @@ router.get('/google/callback', async (req: Request, res: Response) => {
     }
 });
 
-router.get('/me', (req: Request, res: Response) => {
-    const user = readSessionUser(req);
-    if (!user) {
+router.get('/me', async (req: Request, res: Response) => {
+    const sessionUser = readSessionUser(req);
+    if (!sessionUser) {
         res.status(401).json({ authenticated: false });
         return;
     }
 
-    res.json({ authenticated: true, user });
+    // Always fetch fresh role + tier from DB — JWT may be stale after admin changes
+    try {
+        const dbUser = await UserModel.findById(sessionUser.id).lean();
+        if (!dbUser) {
+            res.status(401).json({ authenticated: false });
+            return;
+        }
+
+        // Re-sync role from ADMIN_EMAILS in case env changed since last login
+        const freshRole = ADMIN_EMAILS.includes(dbUser.email) ? 'admin' : (dbUser.role ?? 'user');
+
+        res.json({
+            authenticated: true,
+            user: {
+                id: sessionUser.id,
+                email: dbUser.email,
+                name: dbUser.name,
+                picture: dbUser.picture,
+                role: freshRole,
+                tier: dbUser.tier ?? 'free',
+            },
+        });
+    } catch {
+        res.status(500).json({ error: 'Failed to load session user' });
+    }
 });
 
 router.post('/logout', (req: Request, res: Response) => {

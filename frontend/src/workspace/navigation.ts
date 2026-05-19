@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import { BookOpen, Eraser, History, Languages, Library, Palette, Search, Settings, Sparkles } from 'lucide-react';
+import { BookOpen, Eraser, History, Languages, Library, Search, Settings, Sparkles, Tag } from 'lucide-react';
 
 export type WorkspaceNavItem = {
   icon: LucideIcon;
@@ -21,6 +21,6 @@ export const extraNavItems: WorkspaceNavItem[] = [
 ];
 
 export const accountNavItems: WorkspaceNavItem[] = [
-  { icon: Palette, label: 'Theme', path: '/account/theme' },
+  { icon: Tag, label: 'Pricing', path: '/account/pricing' },
   { icon: Settings, label: 'Settings', path: '/account/settings' },
 ];

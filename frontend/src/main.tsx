@@ -4,12 +4,15 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 import { AuthProvider } from './auth/AuthContext'
+import { UsageLimitProvider } from './context/UsageLimitContext'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <UsageLimitProvider>
+          <App />
+        </UsageLimitProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>,
