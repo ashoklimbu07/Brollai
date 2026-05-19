@@ -5,6 +5,10 @@ import {
   get2dAnimationMasterAnalyzerSystemPrompt,
   get2dAnimationMasterAnalyzerUserPrompt,
 } from '../prompts/masterAnalyzer2dAnimationPrompt.js';
+import {
+  getNepalThemeMasterAnalyzerSystemPrompt,
+  getNepalThemeMasterAnalyzerUserPrompt,
+} from '../prompts/masterAnalyzerNepalThemePrompt.js';
 import type { MasterAnalyzerResult, SceneChunk } from '../types.js';
 import { safeParseJSON } from '../utils/safeParseJSON.js';
 
@@ -38,22 +42,28 @@ export async function runMasterAnalyzer(
   for (let attempt = 1; attempt <= CONFIG.MAX_RETRIES; attempt += 1) {
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
+      // Nepal theme seeds are verbose — use higher token limit to avoid truncation.
+      const maxOutputTokens = style === '2d_nepal_theme' ? 16000 : 8192;
       const model = genAI.getGenerativeModel({
-        model: CONFIG.MODEL,
+        model: CONFIG.ANALYZER_MODEL,
         generationConfig: {
-          maxOutputTokens: 8192,
+          maxOutputTokens,
           temperature: CONFIG.TEMPERATURE,
         },
       });
 
       const systemPrompt =
-        style === '2d_animation'
-          ? get2dAnimationMasterAnalyzerSystemPrompt()
-          : getMasterAnalyzerSystemPrompt();
+        style === '2d_nepal_theme'
+          ? getNepalThemeMasterAnalyzerSystemPrompt()
+          : style === '2d_animation'
+            ? get2dAnimationMasterAnalyzerSystemPrompt()
+            : getMasterAnalyzerSystemPrompt();
       const userPrompt =
-        style === '2d_animation'
-          ? get2dAnimationMasterAnalyzerUserPrompt(script, sceneCount)
-          : getMasterAnalyzerUserPrompt(script, sceneCount);
+        style === '2d_nepal_theme'
+          ? getNepalThemeMasterAnalyzerUserPrompt(script, sceneCount)
+          : style === '2d_animation'
+            ? get2dAnimationMasterAnalyzerUserPrompt(script, sceneCount)
+            : getMasterAnalyzerUserPrompt(script, sceneCount);
 
       const result = await model.generateContent([
         { text: systemPrompt },

@@ -176,7 +176,7 @@ export function GenerateToolPage() {
           <p className="mt-4 text-xs uppercase tracking-[.8px] text-[#888888]">Choose style / templates</p>
         </div>
 
-        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <button
             type="button"
             onClick={() => setSelectedStyle('transparent_skeleton')}
@@ -230,6 +230,32 @@ export function GenerateToolPage() {
             </button>
 
             <p className="mt-1 text-xs text-[#888888]">Short prompt, classic hand-drawn look</p>
+          </button>
+          <button
+            type="button"
+            onClick={() => setSelectedStyle('2d_nepal_theme')}
+            disabled={isGenerating}
+            className={`relative rounded-md border p-4 text-left transition-colors ${
+              selectedStyle === '2d_nepal_theme'
+                ? 'border-[#e8380d] bg-[#e8380d]/12'
+                : 'border-[#2e2e2e] bg-[#161616] hover:border-[#e8380d]/60'
+            } disabled:cursor-not-allowed disabled:opacity-50`}
+          >
+            <button
+              type="button"
+              aria-label="More info about 2D Nepali Theme"
+              onClick={(event) => event.stopPropagation()}
+              className="group absolute right-3 top-3 inline-flex h-6 w-6 items-center justify-center rounded-sm text-[#b0b0b0]/40 transition-opacity hover:text-[#f0ede8] hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-[#ff5a2f]/40"
+            >
+              <CircleHelp size={14} />
+              <span className="pointer-events-none absolute bottom-full right-0 z-20 mb-2 w-[280px] rounded border border-[#3a2a25] bg-[#171311] p-2.5 text-left text-[11px] leading-5 text-[#e8ddd7] opacity-0 shadow-[0_12px_30px_rgba(0,0,0,0.45)] transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100">
+                2D hand-drawn style set entirely in Nepal — Nepali characters in authentic clothing, Newari architecture,
+                terraced hills, temples, and festival environments. Supports Nepali and English input.
+              </span>
+            </button>
+
+            <p className="text-sm font-semibold text-[#f0ede8]">2D Nepali Theme</p>
+            <p className="mt-1 text-xs text-[#888888]">Nepali characters &amp; cultural setting</p>
           </button>
         </div>
 

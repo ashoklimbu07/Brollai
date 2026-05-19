@@ -15,14 +15,22 @@ const readPoolKey = (index: number): string | undefined => {
   return fallback || undefined;
 };
 
+// Fallback model used when a style-specific env var is not set
+const DEFAULT_MODEL = 'gemini-2.5-flash-lite';
+
 export const CONFIG = {
   SCENE_COUNT: DEFAULT_SCENE_COUNT,
   /** Final B-roll generation: scenes per Gemini call (fixed at 5). */
   BATCH_SIZE: brollGeneratorConfig.batchSize,
   MAX_RETRIES: 3,
   BATCH_DELAY_MS: brollGeneratorConfig.batchDelayMs,
-  MODEL: brollGeneratorConfig.model,
   TEMPERATURE: brollGeneratorConfig.temperature,
   ANALYZER_API_KEY: process.env.ANALYZER_GEMINI_KEY?.trim() || '',
   API_KEYS: [1, 2, 3, 4, 5].map(readPoolKey).filter((key): key is string => Boolean(key)),
+
+  // Per-style models — set in .env, fall back to DEFAULT_MODEL
+  TRANSPARENT_SKELETON_MODEL: process.env.TRANSPARENT_SKELETON_MODEL?.trim() || DEFAULT_MODEL,
+  TWO_D_ANIMATION_MODEL:       process.env.TWO_D_ANIMATION_MODEL?.trim()       || DEFAULT_MODEL,
+  TWO_D_NEPAL_THEME_MODEL:     process.env.TWO_D_NEPAL_THEME_MODEL?.trim()     || DEFAULT_MODEL,
+  ANALYZER_MODEL:              process.env.ANALYZER_MODEL?.trim()              || DEFAULT_MODEL,
 };

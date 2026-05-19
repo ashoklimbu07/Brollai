@@ -2,6 +2,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { CONFIG } from '../config.js';
 import { generateBrollPrompt } from '../prompts/brollmasterprompt.js';
 import { generate2dAnimationBrollPrompt } from '../prompts/broll2dAnimationMasterPrompt.js';
+import { generate2dNepalThemeBrollPrompt } from '../prompts/broll2dNepalThemeMasterPrompt.js';
 import type { BrollScene, SceneChunk } from '../types.js';
 import { safeParseJSON } from '../utils/safeParseJSON.js';
 import { ApiKeyPool } from './apiKeyPool.js';
@@ -113,8 +114,13 @@ export async function runBatchGenerator(params: {
           try {
             throwIfAborted();
             const genAI = new GoogleGenerativeAI(keyEntry.key);
+            // Pick model based on style — all configurable via .env
+            const styleModel =
+              params.style === '2d_animation'   ? CONFIG.TWO_D_ANIMATION_MODEL :
+              params.style === '2d_nepal_theme' ? CONFIG.TWO_D_NEPAL_THEME_MODEL :
+                                                  CONFIG.TRANSPARENT_SKELETON_MODEL;
             const model = genAI.getGenerativeModel({
-              model: CONFIG.MODEL,
+              model: styleModel,
               generationConfig: {
                 maxOutputTokens: 8192,
                 temperature: CONFIG.TEMPERATURE,
@@ -132,7 +138,9 @@ export async function runBatchGenerator(params: {
             const prompt =
               params.style === '2d_animation'
                 ? generate2dAnimationBrollPrompt(sceneLines, batchStartIndex)
-                : generateBrollPrompt(sceneLines, batchStartIndex);
+                : params.style === '2d_nepal_theme'
+                  ? generate2dNepalThemeBrollPrompt(sceneLines, batchStartIndex)
+                  : generateBrollPrompt(sceneLines, batchStartIndex);
             const response = await model.generateContent(prompt);
             throwIfAborted();
             const rawText = response.response.text();

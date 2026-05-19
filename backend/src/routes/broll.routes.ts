@@ -53,8 +53,8 @@ router.post('/generate', async (req: Request, res: Response) => {
       return;
     }
 
-    if (style !== 'transparent_skeleton' && style !== '2d_animation') {
-      res.status(400).json({ error: 'style must be either "transparent_skeleton" or "2d_animation"' });
+    if (style !== 'transparent_skeleton' && style !== '2d_animation' && style !== '2d_nepal_theme') {
+      res.status(400).json({ error: 'style must be "transparent_skeleton", "2d_animation", or "2d_nepal_theme"' });
       return;
     }
 

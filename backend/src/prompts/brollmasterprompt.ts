@@ -73,7 +73,7 @@ Return a JSON array of exactly ${sceneLines.length} objects, ids ${startIndex + 
 };
 
 export const brollGeneratorConfig = {
-  model: 'gemini-2.5-flash',
+  // model is read from TRANSPARENT_SKELETON_MODEL in .env via CONFIG
   temperature: 0.3,
   batchSize: 5,
   batchDelayMs: 1000,
