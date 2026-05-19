@@ -20,6 +20,7 @@ export function handleGenerateClickImpl(args: {
     return;
   }
 
+  // Style is not yet chosen at this point — use default limits for initial check
   const error = getScriptLengthError(length);
   if (error) {
     setError(error);
@@ -72,7 +73,8 @@ export async function handleGenerateBrollImpl(args: {
     return;
   }
 
-  const error = getScriptLengthError(length);
+  // Validate with style-aware limits (2d_nepal_theme allows up to 2000 chars)
+  const error = getScriptLengthError(length, selectedStyle);
   if (error) {
     setError(error);
     return;
@@ -149,4 +151,3 @@ export function dismissComingSoonImpl(args: {
 }) {
   args.setShowComingSoon(false);
 }
-

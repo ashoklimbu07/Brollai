@@ -122,7 +122,41 @@ export interface HistoryItem {
   updatedAt: string;
 }
 
+export interface TranslateScriptResponse {
+  success: boolean;
+  direction: string;
+  translatedText: string;
+}
+
 export const apiService = {
+  translateScript: async (
+    script: string,
+    direction: 'ne->en' | 'en->ne',
+    signal?: AbortSignal,
+  ): Promise<TranslateScriptResponse> => {
+    const response = await fetch(`${API_BASE_URL}/script-translator/translate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeaders(),
+      },
+      body: JSON.stringify({ script, direction }),
+      credentials: 'include',
+      signal,
+    });
+
+    if (!response.ok) {
+      const error = await parseJsonResponse<{ error?: string; details?: string }>(
+        response,
+        'Script translation',
+      );
+      const details = typeof error.details === 'string' ? error.details : '';
+      throw new Error(details ? `${error.error}: ${details}` : error.error || 'Translation failed');
+    }
+
+    return parseJsonResponse<TranslateScriptResponse>(response, 'Script translation');
+  },
+
   wakeBackend: async (signal?: AbortSignal): Promise<boolean> => {
     return tryWakeBackend(signal);
   },

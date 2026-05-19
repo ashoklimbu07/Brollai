@@ -67,7 +67,7 @@ export function GenerateToolPage() {
 
   const trimmedLength = script.trim().length;
   const MIN_SCRIPT_CHARACTERS = 800;
-  const MAX_SCRIPT_CHARACTERS = 1500;
+  const MAX_SCRIPT_CHARACTERS = selectedStyle === '2d_nepal_theme' ? 2000 : 1500;
   const isScriptLengthInvalid =
     trimmedLength > 0 && (trimmedLength < MIN_SCRIPT_CHARACTERS || trimmedLength > MAX_SCRIPT_CHARACTERS);
   const scriptValidationErrors = [
@@ -81,7 +81,9 @@ export function GenerateToolPage() {
     (scriptValidationErrors.includes(error) ||
       error.includes(`between ${MIN_SCRIPT_CHARACTERS} and ${MAX_SCRIPT_CHARACTERS} characters`) ||
       // Backwards compatible with older backend/frontend validations
-      error.includes('between 1000 and 1500 characters'));
+      error.includes('between 1000 and 1500 characters') ||
+      error.includes('between 800 and 1500 characters') ||
+      error.includes('between 800 and 2000 characters'));
   const displayError = shouldHideInlineError ? null : error;
 
   return (

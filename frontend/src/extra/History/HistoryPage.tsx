@@ -7,6 +7,7 @@ import { WorkspaceLayout } from '../../workspace/WorkspaceLayout';
 const TOOL_LABELS: Record<string, string> = {
   'broll.generate': 'Generate B-roll',
   'manual-story.generate': 'Manual Story',
+  'script-translator.translate': 'Script Translator',
   'video-scene-analyzer.analyze-video': 'Video Scene Analyzer (Video)',
   'video-scene-analyzer.regenerate-visual-prompt': 'Visual Prompt Regeneration',
   'video-scene-analyzer.generate-image': 'Image Generation',
