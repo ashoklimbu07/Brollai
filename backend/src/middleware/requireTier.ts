@@ -37,7 +37,7 @@ export async function requireTier(req: Request, res: Response, next: NextFunctio
             return;
         }
 
-        const limit = TIER_LIMITS[dbUser.tier] ?? TIER_LIMITS['free'];
+        const limit: number = TIER_LIMITS[dbUser.tier] ?? TIER_LIMITS['free'] ?? 3;
 
         // Reset monthly cycle if it has expired
         const now = new Date();
