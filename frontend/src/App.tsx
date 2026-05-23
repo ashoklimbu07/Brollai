@@ -11,6 +11,7 @@ import { HistoryPage } from './extra/History/HistoryPage';
 import { MediaLibraryPage } from './extra/MediaLibrary/MediaLibraryPage';
 import { ManualStoryPage } from './tools/ManualStory/ManualStoryPage';
 import { PromptCleanerPage } from './tools/PromptCleaner/PromptCleanerPage';
+import { ScriptSplitterPage } from './tools/ScriptSplitter/ScriptSplitterPage';
 import { ScriptTranslatorPage } from './tools/ScriptTranslator/ScriptTranslatorPage';
 import { VideoSceneAnalyzerPage } from './tools/VideoSceneAnalyzer/VideoSceneAnalyzerPage';
 import { WorkspaceHomePage } from './workspace/WorkspaceHomePage';
@@ -32,6 +33,7 @@ function App() {
       <Route path="/script-translator" element={<ProtectedRoute><ScriptTranslatorPage /></ProtectedRoute>} />
       <Route path="/tools/prompt-cleaner" element={<ProtectedRoute><PromptCleanerPage /></ProtectedRoute>} />
       <Route path="/tools/manual-story" element={<ProtectedRoute><ManualStoryPage /></ProtectedRoute>} />
+      <Route path="/tools/script-splitter" element={<ProtectedRoute><ScriptSplitterPage /></ProtectedRoute>} />
       <Route path="/extra/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
       <Route path="/extra/media-library" element={<ProtectedRoute><MediaLibraryPage /></ProtectedRoute>} />
       <Route path="/account/pricing" element={<ProtectedRoute><PricingPage /></ProtectedRoute>} />

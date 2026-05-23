@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { accountNavItems, extraNavItems, toolsNavItems, type WorkspaceNavItem } from './navigation';
 import { useAuth } from '../auth/AuthContext';
@@ -90,7 +91,10 @@ export function WorkspaceLayout({ children, headerActions }: WorkspaceLayoutProp
             </div>
           </div>
 
-          <div className="flex-1 space-y-5 overflow-hidden px-4 py-5">
+          <div
+            className="flex-1 space-y-5 overflow-y-auto px-4 py-5"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}
+          >
             <NavSection title="Tools" items={toolsNavItems} currentPath={currentPath} onNavigate={navigate} />
 
             <div className="mx-0.5 h-px bg-[#252525]" />
@@ -110,7 +114,11 @@ export function WorkspaceLayout({ children, headerActions }: WorkspaceLayoutProp
               {headerActions}
             </div>
             <div className="inline-flex items-center gap-2">
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#2a2a2a] bg-[#151515] px-2 py-1.5 text-xs text-[#b1b1b1]">
+              <button
+                type="button"
+                onClick={() => navigate('/account/settings')}
+                className="inline-flex items-center gap-2 rounded-full border border-[#2a2a2a] bg-[#151515] px-2 py-1.5 text-xs text-[#b1b1b1] transition-colors hover:border-[#3a3a3a] hover:bg-[#1e1e1e]"
+              >
                 {profilePicture ? (
                   <img
                     src={profilePicture}
@@ -125,7 +133,7 @@ export function WorkspaceLayout({ children, headerActions }: WorkspaceLayoutProp
                   </span>
                 )}
                 <span className="max-w-[120px] truncate pr-1">{firstName}</span>
-              </div>
+              </button>
             </div>
           </header>
 
