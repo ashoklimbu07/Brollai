@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Crown, Rocket, Sparkle, Zap, type LucideIcon } from 'lucide-react';
 import { useAuth } from '../../auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { ConfirmModal } from '../../tools/ManualStory/ConfirmModal';
@@ -7,6 +8,7 @@ import { WorkspaceLayout } from '../../workspace/WorkspaceLayout';
 type PlanFeature = { text: string; locked?: boolean };
 type PlanConfig = {
   label: string;
+  Icon: LucideIcon;
   color: string;
   border: string;
   bg: string;
@@ -17,7 +19,8 @@ type PlanConfig = {
 // Plan definitions — features listed per tier
 const PLAN_CONFIG: Record<string, PlanConfig> = {
   admin: {
-    label: 'Admin 👑',
+    label: 'Admin',
+    Icon: Crown,
     color: 'text-[#e8380d]',
     border: 'border-[#e8380d]/40',
     bg: 'bg-[#e8380d]/6',
@@ -31,7 +34,8 @@ const PLAN_CONFIG: Record<string, PlanConfig> = {
     ],
   },
   ultra: {
-    label: 'Ultra ⚡',
+    label: 'Ultra',
+    Icon: Zap,
     color: 'text-[#a78bfa]',
     border: 'border-[#a78bfa]/40',
     bg: 'bg-[#a78bfa]/6',
@@ -45,7 +49,8 @@ const PLAN_CONFIG: Record<string, PlanConfig> = {
     ],
   },
   pro: {
-    label: 'Pro 🚀',
+    label: 'Pro',
+    Icon: Rocket,
     color: 'text-[#34d399]',
     border: 'border-[#34d399]/40',
     bg: 'bg-[#34d399]/6',
@@ -59,7 +64,8 @@ const PLAN_CONFIG: Record<string, PlanConfig> = {
     ],
   },
   free: {
-    label: 'Free ✦',
+    label: 'Free',
+    Icon: Sparkle,
     color: 'text-[#888888]',
     border: 'border-[#333333]',
     bg: 'bg-[#151515]',
@@ -89,11 +95,10 @@ export function AccountSettingsPage() {
 
   // Determine which plan config to show
   const planKey = user?.role === 'admin' ? 'admin' : (user?.tier ?? 'free');
-  const plan = PLAN_CONFIG[planKey];
+  const plan = PLAN_CONFIG[planKey]!;
 
   return (
     <WorkspaceLayout>
-      {/* overflow-hidden on section stops the horizontal scrollbar from content bleed */}
       <section className="relative w-full overflow-hidden border border-[#232323] bg-[linear-gradient(180deg,_#131313_0%,_#0d0d0d_100%)] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.45)] sm:p-6 md:p-8">
         <div className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-[radial-gradient(circle,_rgba(255,60,0,0.2)_0%,_rgba(255,60,0,0)_70%)]" />
         <div className="pointer-events-none absolute -left-24 bottom-0 h-52 w-52 rounded-full bg-[radial-gradient(circle,_rgba(255,90,40,0.14)_0%,_rgba(255,90,40,0)_72%)]" />
@@ -142,7 +147,8 @@ export function AccountSettingsPage() {
           <div className={`mt-6 overflow-hidden border ${plan.border} ${plan.glow}`}>
             {/* Header strip */}
             <div className={`${plan.bg} flex items-center justify-between border-b ${plan.border} px-5 py-3`}>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5">
+                <plan.Icon size={18} className={plan.color} strokeWidth={1.5} />
                 <p className={`font-['Bebas_Neue'] text-[26px] tracking-[1px] ${plan.color}`}>{plan.label}</p>
                 <span className="text-[10px] uppercase tracking-[2px] text-[#555555]">Current Plan</span>
               </div>
@@ -182,7 +188,7 @@ export function AccountSettingsPage() {
                     onClick={() => navigate('/admin')}
                     className={`flex items-center gap-2 border ${plan.border} bg-[#e8380d]/8 px-4 py-2.5 text-sm font-semibold ${plan.color} transition-all hover:bg-[#e8380d]/18 hover:shadow-[0_0_20px_rgba(232,56,13,0.15)] whitespace-nowrap`}
                   >
-                    <span>👑</span>
+                    <Crown size={14} strokeWidth={1.5} />
                     <span>Manage Users</span>
                     <span className="ml-auto text-[#e8380d]/50">→</span>
                   </button>
@@ -211,7 +217,7 @@ export function AccountSettingsPage() {
             </div>
           </div>
 
-          {/* Logout — orange theme */}
+          {/* Logout */}
           <div className="mt-6">
             <button
               type="button"

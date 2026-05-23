@@ -1,13 +1,14 @@
 import { useAuth } from '../../auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { WorkspaceLayout } from '../../workspace/WorkspaceLayout';
+import { Crown, Rocket, Sparkle, Zap, type LucideIcon } from 'lucide-react';
 
 type PlanKey = 'free' | 'pro' | 'ultra' | 'admin';
 
 const PLANS: {
   key: PlanKey;
   label: string;
-  icon: string;
+  Icon: LucideIcon;
   color: string;
   border: string;
   bg: string;
@@ -19,7 +20,7 @@ const PLANS: {
   {
     key: 'free',
     label: 'Free',
-    icon: '✦',
+    Icon: Sparkle,
     color: 'text-[#888888]',
     border: 'border-[#333333]',
     bg: 'bg-[#111111]',
@@ -40,7 +41,7 @@ const PLANS: {
   {
     key: 'pro',
     label: 'Pro',
-    icon: '🚀',
+    Icon: Rocket,
     color: 'text-[#34d399]',
     border: 'border-[#34d399]/40',
     bg: 'bg-[#111111]',
@@ -57,7 +58,7 @@ const PLANS: {
   {
     key: 'ultra',
     label: 'Ultra',
-    icon: '⚡',
+    Icon: Zap,
     color: 'text-[#a78bfa]',
     border: 'border-[#a78bfa]/40',
     bg: 'bg-[#111111]',
@@ -76,7 +77,7 @@ const PLANS: {
 const ADMIN_PLAN = {
   key: 'admin' as PlanKey,
   label: 'Admin',
-  icon: '👑',
+  Icon: Crown,
   color: 'text-[#e8380d]',
   border: 'border-[#e8380d]/40',
   bg: 'bg-[#111111]',
@@ -109,7 +110,7 @@ function PlanCard({
       )}
       <div className={`border-b ${plan.border} px-5 py-4`}>
         <div className="flex items-center gap-2">
-          <span className="text-xl">{plan.icon}</span>
+          <plan.Icon size={20} className={plan.color} strokeWidth={1.5} />
           <p className={`font-['Bebas_Neue'] text-[26px] tracking-[1px] ${plan.color}`}>{plan.label}</p>
         </div>
         <p className={`mt-1 font-['Bebas_Neue'] text-[32px] leading-none tracking-tight ${plan.color}`}>

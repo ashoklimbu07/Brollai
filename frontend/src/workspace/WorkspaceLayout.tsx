@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import React from 'react';
+import { Crown, Rocket, Sparkle, Zap } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { accountNavItems, extraNavItems, toolsNavItems, type WorkspaceNavItem } from './navigation';
 import { useAuth } from '../auth/AuthContext';
@@ -11,10 +12,10 @@ type WorkspaceLayoutProps = {
 
 // Badge config per plan — shown next to BROLLAI logo in sidebar
 const PLAN_BADGE = {
-  admin: { label: 'Admin', icon: '👑', className: 'border-[#e8380d]/40 bg-[#e8380d]/10 text-[#e8380d]' },
-  ultra: { label: 'Ultra', icon: '⚡', className: 'border-[#a78bfa]/40 bg-[#a78bfa]/10 text-[#a78bfa]' },
-  pro:   { label: 'Pro',   icon: '🚀', className: 'border-[#34d399]/40 bg-[#34d399]/10 text-[#34d399]' },
-  free:  { label: 'Free',  icon: '✦',  className: 'border-[#444444] bg-[#1a1a1a] text-[#666666]' },
+  admin: { label: 'Admin', Icon: Crown,   className: 'border-[#e8380d]/40 bg-[#e8380d]/10 text-[#e8380d]' },
+  ultra: { label: 'Ultra', Icon: Zap,     className: 'border-[#a78bfa]/40 bg-[#a78bfa]/10 text-[#a78bfa]' },
+  pro:   { label: 'Pro',   Icon: Rocket,  className: 'border-[#34d399]/40 bg-[#34d399]/10 text-[#34d399]' },
+  free:  { label: 'Free',  Icon: Sparkle, className: 'border-[#444444] bg-[#1a1a1a] text-[#666666]' },
 } as const;
 
 function NavSection({
@@ -84,9 +85,10 @@ export function WorkspaceLayout({ children, headerActions }: WorkspaceLayoutProp
               <button
                 type="button"
                 onClick={() => navigate('/account/settings')}
-                className={`border px-2 py-0.5 text-[9px] uppercase tracking-[2px] font-medium transition-opacity hover:opacity-70 ${badge.className}`}
+                className={`border px-2 py-0.5 text-[9px] uppercase tracking-[2px] font-medium transition-opacity hover:opacity-70 inline-flex items-center gap-1 ${badge.className}`}
               >
-                {badge.icon} {badge.label}
+                <badge.Icon size={9} strokeWidth={2} />
+                {badge.label}
               </button>
             </div>
           </div>
