@@ -31,7 +31,10 @@ const PLANS: {
       { text: 'Video scene analyzer' },
       { text: 'Script translator' },
       { text: 'Manual story builder' },
+      { text: 'Prompt parser' },
+      { text: 'Script splitter' },
       { text: 'Generation history', locked: true },
+      { text: 'Other tools', locked: true },
     ],
   },
   {
@@ -46,11 +49,9 @@ const PLANS: {
     outputs: '20 outputs / month',
     features: [
       { text: 'Everything in Free' },
-      { text: 'B-roll generator' },
-      { text: 'Video scene analyzer' },
-      { text: 'Script translator' },
-      { text: 'Manual story builder' },
+      { text: '20 outputs per month' },
       { text: 'Generation history' },
+      { text: 'Other tools access' },
     ],
   },
   {

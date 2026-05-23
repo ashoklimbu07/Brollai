@@ -54,6 +54,7 @@ const PLAN_CONFIG: Record<string, PlanConfig> = {
       { text: '20 outputs per month' },
       { text: 'Access to all tools' },
       { text: 'Generation history' },
+      { text: 'Other tools' },
       { text: 'Standard processing' },
     ],
   },
@@ -66,8 +67,11 @@ const PLAN_CONFIG: Record<string, PlanConfig> = {
     features: [
       { text: '3 outputs per month' },
       { text: 'Access to all tools' },
+      { text: 'Prompt parser' },
+      { text: 'Script splitter' },
       { text: 'Standard processing' },
       { text: 'Generation history', locked: true },
+      { text: 'Other tools', locked: true },
     ],
   },
 };
