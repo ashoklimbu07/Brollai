@@ -1,17 +1,35 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Check, ClipboardCopy, FileText, Trash2, Upload, X } from 'lucide-react';
 import { WorkspaceLayout } from '../../workspace/WorkspaceLayout';
 import { PromptCard } from './PromptCard';
-import { parsePrompts } from './promptCleaner.utils';
+import { parsePrompts } from './promptParser.utils';
+import { ConfirmModal } from '../ManualStory/ConfirmModal';
 
-export function PromptCleanerPage() {
-  const [inputText, setInputText] = useState('');
-  const [prompts, setPrompts] = useState<string[]>([]);
-  const [fileName, setFileName] = useState<string | null>(null);
-  const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
-  const [copiedAll, setCopiedAll] = useState(false);
-  const [expandedIdx, setExpandedIdx] = useState<Set<number>>(new Set());
-  const [error, setError] = useState<string | null>(null);
+// ─── Session memory ───────────────────────────────────────────────────────────
+
+const SS_INPUT    = 'promptparser:input';
+const SS_FILENAME = 'promptparser:filename';
+
+/** Persists a string value in sessionStorage — survives page refresh, cleared on tab close. */
+function useSessionState(key: string, initial = ''): [string, (v: string) => void] {
+  const [value, setValue] = useState<string>(() => {
+    try { return sessionStorage.getItem(key) ?? initial; } catch { return initial; }
+  });
+  useEffect(() => {
+    try { sessionStorage.setItem(key, value); } catch { /* quota / private-mode */ }
+  }, [key, value]);
+  return [value, setValue];
+}
+
+export function PromptParserPage() {
+  const [inputText, setInputText]   = useSessionState(SS_INPUT);
+  const [fileName,  setFileName]    = useSessionState(SS_FILENAME);
+  const [prompts,       setPrompts]       = useState<string[]>([]);
+  const [copiedIdx,     setCopiedIdx]     = useState<number | null>(null);
+  const [copiedAll,     setCopiedAll]     = useState(false);
+  const [expandedIdx,   setExpandedIdx]   = useState<Set<number>>(new Set());
+  const [error,         setError]         = useState<string | null>(null);
+  const [showClearModal, setShowClearModal] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -71,8 +89,8 @@ export function PromptCleanerPage() {
 
   function handleClear() {
     setInputText('');
+    setFileName('');
     setPrompts([]);
-    setFileName(null);
     setError(null);
     setExpandedIdx(new Set());
   }
@@ -120,7 +138,7 @@ export function PromptCleanerPage() {
                 {(inputText || prompts.length > 0) && (
                   <button
                     type="button"
-                    onClick={handleClear}
+                    onClick={() => setShowClearModal(true)}
                     className="inline-flex items-center gap-1.5 rounded border border-[#2f2f2f] bg-[#1a1a1a] px-3 py-1.5 text-xs text-[#888888] transition-colors hover:border-red-900/60 hover:text-red-400"
                   >
                     <Trash2 size={12} /> Clear
@@ -136,7 +154,7 @@ export function PromptCleanerPage() {
                 {fileName}
                 <button
                   type="button"
-                  onClick={() => { setFileName(null); setInputText(''); setPrompts([]); }}
+                  onClick={() => { setFileName(''); setInputText(''); setPrompts([]); }}
                   className="ml-1 text-[#555] hover:text-[#aaa]"
                 >
                   <X size={10} />
@@ -215,6 +233,22 @@ export function PromptCleanerPage() {
 
         </div>
       </section>
+
+      {/* Clear confirmation */}
+      <ConfirmModal
+        open={showClearModal}
+        title="Clear everything?"
+        body="This will remove your input and all parsed prompts. Session memory will also be wiped. This cannot be undone."
+        cancelLabel="Cancel"
+        confirmLabel="Yes, Clear"
+        tone="danger"
+        onCancel={() => setShowClearModal(false)}
+        onConfirm={() => {
+          setShowClearModal(false);
+          handleClear();
+        }}
+      />
+
     </WorkspaceLayout>
   );
 }

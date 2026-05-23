@@ -1,5 +1,5 @@
 import { Check, ChevronDown, ChevronUp, ClipboardCopy } from 'lucide-react';
-import { extractScene } from './promptCleaner.utils';
+import { extractScene } from './promptParser.utils';
 
 type Props = {
   prompt: string;
