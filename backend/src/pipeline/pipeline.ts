@@ -24,20 +24,21 @@ export async function runPipeline(
     throw new Error('sceneCount must be between 25 and 35 inclusive.');
   }
 
-  const analyzerConfigured = Boolean(CONFIG.ANALYZER_API_KEY);
-  const analyzerLast4 = analyzerConfigured ? CONFIG.ANALYZER_API_KEY.slice(-4) : 'none';
+  const analyzerConfigured = CONFIG.ANALYZER_API_KEYS.length > 0;
+  const analyzerKeySummary = CONFIG.ANALYZER_API_KEYS
+    .map((k, i) => `key${i + 1}=...${k.slice(-4)}`)
+    .join(', ');
   console.log(
-    `Pipeline key status -> analyzerConfigured=${analyzerConfigured} analyzerKeyLast4=${analyzerLast4} pooledKeys=${CONFIG.API_KEYS.length}`,
+    `Pipeline key status -> analyzerKeys=${CONFIG.ANALYZER_API_KEYS.length} [${analyzerKeySummary}] pooledKeys=${CONFIG.API_KEYS.length}`,
   );
-  console.log(`[B-roll] Master analyzer using dedicated key ...${analyzerLast4}`);
 
   if (CONFIG.API_KEYS.length !== 5) {
     throw new Error(
       `Exactly 5 API keys are required (found ${CONFIG.API_KEYS.length}). Set GEMINI_KEY_1..5 or GEMINI_API_KEY_BROLL1..5 in backend/.env.`,
     );
   }
-  if (!CONFIG.ANALYZER_API_KEY) {
-    throw new Error('Missing ANALYZER_GEMINI_KEY. Configure dedicated analyzer key in environment.');
+  if (!CONFIG.ANALYZER_API_KEYS.length) {
+    throw new Error('Missing ANALYZER_GEMINI_KEY. Configure at least one dedicated analyzer key in environment.');
   }
 
   const pool = new ApiKeyPool(CONFIG.API_KEYS);
@@ -46,7 +47,7 @@ export async function runPipeline(
 
   const { context_card: contextCard, chunks: mergedChunks } = await runMasterAnalyzer(
     script,
-    CONFIG.ANALYZER_API_KEY,
+    CONFIG.ANALYZER_API_KEYS,
     sceneCount,
     style,
   );

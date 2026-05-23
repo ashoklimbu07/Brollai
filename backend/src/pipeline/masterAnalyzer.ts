@@ -37,13 +37,27 @@ function normalizeChunks(raw: SceneChunk[], sceneCount: number): SceneChunk[] {
 
 export async function runMasterAnalyzer(
   script: string,
-  apiKey: string,
+  apiKeys: string[],
   sceneCount: number,
   style: string,
 ): Promise<MasterAnalyzerResult> {
-  let lastError: unknown;
+  if (apiKeys.length === 0) {
+    throw new Error('runMasterAnalyzer: no analyzer API keys provided');
+  }
 
-  for (let attempt = 1; attempt <= CONFIG.MAX_RETRIES; attempt += 1) {
+  let lastError: unknown;
+  let attemptCount = 0;
+
+  // Total attempts = MAX_RETRIES per key, rotating across all keys.
+  // E.g. 2 keys × 3 retries = up to 6 attempts: k1, k2, k1, k2, k1, k2
+  const totalAttempts = CONFIG.MAX_RETRIES * apiKeys.length;
+
+  while (attemptCount < totalAttempts) {
+    // Pick the key for this attempt (round-robin)
+    const keyIndex = attemptCount % apiKeys.length;
+    const apiKey   = apiKeys[keyIndex]!;
+    attemptCount  += 1;
+
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
       // Documentary and Nepal theme seeds are verbose — use higher token limit to avoid truncation.
@@ -86,14 +100,22 @@ export async function runMasterAnalyzer(
       }
 
       const chunks = normalizeChunks(parsed.chunks, sceneCount);
-      console.log(`Master analyzer complete — context card + ${chunks.length} chunks (1 API call)`);
+      console.log(
+        `Master analyzer complete — key[${keyIndex + 1}/${apiKeys.length}] attempt ${attemptCount}: ` +
+        `context card + ${chunks.length} chunks`,
+      );
       return { context_card: parsed.context_card, chunks };
+
     } catch (error) {
       lastError = error;
-      if (attempt >= CONFIG.MAX_RETRIES) break;
+      const msg = error instanceof Error ? error.message : String(error);
+      console.warn(
+        `Master analyzer attempt ${attemptCount}/${totalAttempts} failed (key[${keyIndex + 1}]): ${msg}`,
+      );
+      // Continue to next attempt with the next key
     }
   }
 
   const message = lastError instanceof Error ? lastError.message : String(lastError ?? 'Unknown error');
-  throw new Error(`Master analyzer failed after ${CONFIG.MAX_RETRIES} retries: ${message}`);
+  throw new Error(`Master analyzer failed after ${totalAttempts} attempts across ${apiKeys.length} key(s): ${message}`);
 }

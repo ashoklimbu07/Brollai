@@ -40,6 +40,11 @@ export const CONFIG = {
   BATCH_DELAY_MS: brollGeneratorConfig.batchDelayMs,
   TEMPERATURE: brollGeneratorConfig.temperature,
   ANALYZER_API_KEY: process.env.ANALYZER_GEMINI_KEY?.trim() || '',
+  // All dedicated analyzer keys — at least one required, second is optional fallback
+  ANALYZER_API_KEYS: [
+    process.env.ANALYZER_GEMINI_KEY?.trim(),
+    process.env.ANALYZER_GEMINI_KEY_2?.trim(),
+  ].filter((k): k is string => Boolean(k)),
   API_KEYS: [1, 2, 3, 4, 5].map(readPoolKey).filter((key): key is string => Boolean(key)),
 
   // Per-style models — set in .env, fall back to DEFAULT_MODEL
