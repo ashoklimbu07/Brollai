@@ -30,7 +30,7 @@ const readPoolKey = (index: number): string | undefined => {
 };
 
 // Fallback model used when a style-specific env var is not set
-const DEFAULT_MODEL = 'gemini-2.5-flash-lite';
+const DEFAULT_MODEL = 'gemini-2.5-flash';
 
 export const CONFIG = {
   SCENE_COUNT: DEFAULT_SCENE_COUNT,

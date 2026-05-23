@@ -33,7 +33,7 @@ CRITICAL RULES
 - Keep these fields consistent across every object in this response (do not rewrite them): "style", "line_render", "color_palette", "quality", "aspect_ratio", "strict_prohibitions".
 - Avoid repetitive B-roll:
   - Each scene must introduce at least one new concrete visual element (prop, micro-location, gesture, or interaction) not present in the previous scene.
-  - Vary camera type/angle/framing across scenes; do not reuse the same shot pattern repeatedly.
+  - Vary camera type/angle/framing across scenes; do not reuse the same shot pattern repeatedly. Every scene must use a distinct cinematic camera angle — choose from: extreme close-up, close-up, medium close-up, medium shot, medium wide, wide shot, extreme wide/establishing, over-the-shoulder, low-angle hero shot, high-angle overhead, dutch tilt, bird's-eye, worm's-eye, tracking shot perspective, rack-focus foreground/background. Describe the angle in cinematic terms, not generic terms.
   - If the seed line is vague, concretize it with specific Nepali action + setting detail + props while staying faithful to intent.
   - Do NOT add graphic/comic UI elements: no question marks, no punctuation as props, no icons/arrows, no labels, no speech bubbles, no thought bubbles.
   - Single full frame only: no split frames, no multi-panel layouts, no collage/triptych.
@@ -45,9 +45,9 @@ Exact shape per object:
   "id": <number>,
   "scene": "One clean cinematic description sentence/paragraph. No bracketed headers like [SCENE] or [STYLE]. No '---' separators.",
   "shot": {
-    "type": "Varied shot (close-up, medium, wide, OTS, macro, etc.)",
-    "angle": "eye level, low, high, dutch, etc.",
-    "framing": "composition (rule of thirds, centered, foreground framing, etc.)"
+    "type": "Cinematic shot type — must be one of: extreme close-up / close-up / medium close-up / medium shot / medium wide / wide shot / extreme wide / over-the-shoulder / two-shot — do NOT repeat the same type across consecutive scenes",
+    "angle": "Cinematic camera angle — must be one of: eye level / low-angle (hero shot) / high-angle / bird's-eye / worm's-eye / dutch tilt / canted — vary across scenes",
+    "framing": "Cinematic composition — e.g. rule of thirds with subject off-center, centered symmetry, foreground object framing subject, leading lines into depth, negative space, environmental framing through archway or window"
   },
   "style": "semi-realistic 2D illustration, modern graphic novel style, western comic + soft anime influence, cinematic digital painting, grounded realism, dramatic storytelling frame",
   "characters": {
