@@ -89,12 +89,13 @@ export function ScriptInputStyleOptions(props: {
             >
               <CircleHelp size={14} />
               <span className={tooltip}>
-                2D hand-drawn style set entirely in Nepal — Nepali characters in authentic clothing, Newari architecture,
-                terraced hills, temples, and festival environments. Supports Nepali and English input.
+                Photorealistic cinematic style set entirely in Nepal — real Nepali characters in authentic clothing,
+                Newari architecture, terraced hills, temples, and festival environments. Cinematic angles, teal-and-orange
+                LUT. Supports Nepali and English input.
               </span>
             </button>
-            <div className="font-bold text-[#f0ede8] text-xs">2D Nepali Theme</div>
-            <div className="text-[10px] text-[#888888] mt-0.5">Nepali characters &amp; cultural setting</div>
+            <div className="font-bold text-[#f0ede8] text-xs">Nepali Cinematic</div>
+            <div className="text-[10px] text-[#888888] mt-0.5">Nepali characters &amp; cinematic realism</div>
           </button>
 
           {/* Documentary */}

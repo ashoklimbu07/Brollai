@@ -202,7 +202,10 @@ export function GenerateToolPage() {
               </span>
             </button>
 
-            <p className="text-sm font-semibold text-[#f0ede8]">Transparent Skeleton</p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-semibold text-[#f0ede8]">Transparent Skeleton</p>
+              <span className="rounded-sm bg-[#1e1e1e] border border-[#333] px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.6px] text-[#888888]">Short form</span>
+            </div>
             <p className="mt-1 text-xs text-[#888888]">What if translucent character?</p>
           </button>
           <button
@@ -217,6 +220,7 @@ export function GenerateToolPage() {
           >
             <div className="flex items-center gap-2">
               <p className="text-sm font-semibold text-[#f0ede8]">2D Animation</p>
+              <span className="rounded-sm bg-[#1e1e1e] border border-[#333] px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.6px] text-[#888888]">Short form</span>
             </div>
             <button
               type="button"
@@ -251,13 +255,17 @@ export function GenerateToolPage() {
             >
               <CircleHelp size={14} />
               <span className="pointer-events-none absolute bottom-full right-0 z-20 mb-2 w-[280px] rounded border border-[#3a2a25] bg-[#171311] p-2.5 text-left text-[11px] leading-5 text-[#e8ddd7] opacity-0 shadow-[0_12px_30px_rgba(0,0,0,0.45)] transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100">
-                2D hand-drawn style set entirely in Nepal — Nepali characters in authentic clothing, Newari architecture,
-                terraced hills, temples, and festival environments. Supports Nepali and English input.
+                Photorealistic cinematic style set entirely in Nepal — real Nepali characters in authentic clothing,
+                Newari architecture, terraced hills, temples, and festival environments. Cinematic angles, teal-and-orange
+                LUT. Supports Nepali and English input.
               </span>
             </button>
 
-            <p className="text-sm font-semibold text-[#f0ede8]">2D Nepali Theme</p>
-            <p className="mt-1 text-xs text-[#888888]">Nepali characters &amp; cultural setting</p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-semibold text-[#f0ede8]">Nepali Cinematic</p>
+              <span className="rounded-sm bg-[#1a1a0e] border border-[#3a3a1a] px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.6px] text-[#a0a060]">Long form</span>
+            </div>
+            <p className="mt-1 text-xs text-[#888888]">Nepali characters &amp; cinematic realism</p>
           </button>
 
           {/* Documentary style card */}
@@ -285,7 +293,10 @@ export function GenerateToolPage() {
               </span>
             </button>
 
-            <p className="text-sm font-semibold text-[#f0ede8]">Documentary</p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-semibold text-[#f0ede8]">Documentary</p>
+              <span className="rounded-sm bg-[#1a1a0e] border border-[#3a3a1a] px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.6px] text-[#a0a060]">Long form</span>
+            </div>
             <p className="mt-1 text-xs text-[#888888]">Photorealistic, cinematic, real-world feel</p>
           </button>
         </div>

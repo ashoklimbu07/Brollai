@@ -1,118 +1,113 @@
 /**
- * 2D Animation — Nepali Theme final-stage B-roll JSON prompt.
- * Identical style/LUT/line-render/quality/color_palette to twoDAnimationMasterPrompt.
- * Only character identity, environment, and background are locked to Nepal.
+ * Cinematic Nepali Theme — final-stage B-roll JSON prompt.
+ * Photorealistic. Nepali character fully described by AI per scene.
+ * Authentic Nepali settings mandatory. Cinematic angles enforced.
  */
-export const twoDNepalThemeMasterPrompt = `2D ANIMATION — NEPALI THEME — FINAL B-ROLL (JSON OUTPUT)
+export const nepalCinematicMasterPrompt = `CINEMATIC NEPALI THEME — FINAL B-ROLL (JSON OUTPUT)
 
 You receive numbered scene lines from the MASTER ANALYZER. Each line is a seed broll_prompt: it already
-targets the story beat, setting, and intent. Your job is to expand each seed into one full JSON scene object.
-Preserve narrative continuity and intent; do not replace the core action.
+targets the Nepali character, resolved setting, and story beat. Your job is to expand each seed into one
+full JSON scene object — preserve narrative intent; do not change the core action or setting.
 
-CHARACTER LOCK (ABSOLUTE — enforced on every single scene)
-- The main character is a Nepali person. Once their identity is established in the first scene, keep it IDENTICAL across every scene in this batch:
-  - Same face structure: South Asian Nepali features, defined dark eyebrows, warm medium-brown skin tone.
-  - Same hair: same style, length, and color across all scenes unless a scene seed explicitly changes it.
-  - Same outfit logic: authentic Nepali clothing appropriate to the context. Once set, do not randomly change it between scenes unless the seed implies a setting/time change.
-  - Same body type and height proportions.
-- This is a strict consistency rule. Do NOT reinterpret the character between scenes.
+STEP 1 — Character lock (enforced across all scenes in this batch)
+The main character is a Nepali person established in the first seed. Once you define their identity in
+scene 1, keep it IDENTICAL across every scene:
+- Same face: South Asian Nepali features, specific ethnicity (e.g. Newar, Tamang, Brahmin, Sherpa),
+  defined dark eyebrows, warm medium-brown skin tone, realistic skin texture, age-appropriate detail.
+- Same hair: style, length, and color — do not change between scenes unless seed explicitly says so.
+- Same outfit: authentic Nepali clothing set in scene 1, consistent throughout unless seed implies a change.
+- Same body type and height proportions.
+Treat the character as a locked real actor across this batch.
 
-NEPALI THEME RULES (enforced on every scene)
-- Clothing: daura suruwal, dhaka topi, sari, gunyu cholo, labeda suruwal, nepali shawls, traditional jewelry (pote, tilhari, dhungri). Match formality to context.
-- Environments: Kathmandu valley streets, Newari brick architecture with carved wooden windows, tiered pagoda temples, mountain villages, terraced rice paddies, Himalayan peaks, bazaars, suspension bridges, trekking teahouses, ghats, stupas (Boudhanath, Swayambhu), Dashain/Tihar settings.
-- Props: dhaka fabric, clay pottery, brass/copper utensils, lokta paper, thanka paintings, incense sticks, diyo (oil lamps), prayer flags, marigold garlands, khukuri, doko/nanglo baskets, dhara taps, sel roti, momo, dhido, chiya.
-- Never include non-Nepali cultural elements, western chain-store props, or foreign architecture.
+STEP 2 — Nepali setting (mandatory on every scene)
+Every scene MUST be grounded in a specific, real, named Nepali environment. No abstract spaces.
+Choose from: Kathmandu old city streets, Newari brick courtyards, Boudhanath stupa, Swayambhu hilltop,
+Pashupatinath ghats, Nyatapola temple steps, Durbar squares, terraced rice paddies, Himalayan ridge,
+mountain village paths, suspension bridges, trekking teahouses, river ghats, Dashain/Tihar festival grounds.
+Always include at least one authentic Nepali cultural prop:
+  prayer flags | diyo oil lamps | marigold garlands | brass/copper vessels | dhaka fabric |
+  incense sticks | clay pottery | doko/nanglo baskets | thanka paintings | wooden prayer wheels |
+  khukuri | sel roti | momo steamers | chiya cups
 
-CRITICAL RULES
-- Keep the "style" string EXACTLY as written (character-for-character).
-- Fill every field with concrete specifics derived from the seed line.
-- Character is REQUIRED for every scene:
-  - Always include exactly one clear on-screen Nepali main character in "characters.main" with specific role when implied (e.g. shopkeeper, farmer, student, porter, teacher, festival-goer, etc.).
-  - "scene" must explicitly describe what the main character is doing (an observable action), not just a mood or abstract concept.
-- No photorealism, no 3D render, no text/logos/watermarks in the visual.
-- Keep these fields consistent across every object in this response (do not rewrite them): "style", "line_render", "color_palette", "quality", "aspect_ratio", "strict_prohibitions".
-- Avoid repetitive B-roll:
-  - Each scene must introduce at least one new concrete visual element (prop, micro-location, gesture, or interaction) not present in the previous scene.
-  - Vary camera type/angle/framing across scenes; do not reuse the same shot pattern repeatedly. Every scene must use a distinct cinematic camera angle — choose from: extreme close-up, close-up, medium close-up, medium shot, medium wide, wide shot, extreme wide/establishing, over-the-shoulder, low-angle hero shot, high-angle overhead, dutch tilt, bird's-eye, worm's-eye, tracking shot perspective, rack-focus foreground/background. Describe the angle in cinematic terms, not generic terms.
-  - If the seed line is vague, concretize it with specific Nepali action + setting detail + props while staying faithful to intent.
-  - Do NOT add graphic/comic UI elements: no question marks, no punctuation as props, no icons/arrows, no labels, no speech bubbles, no thought bubbles.
-  - Single full frame only: no split frames, no multi-panel layouts, no collage/triptych.
+STEP 3 — Cinematic shot language (enforced on every scene)
+Every scene MUST use a distinct shot type AND angle. Vary both — never repeat the same combination
+in consecutive scenes.
+Shot types: extreme close-up | close-up | medium close-up | medium shot | medium wide |
+  wide shot | extreme wide (establishing) | over-the-shoulder | two-shot | low-angle hero shot |
+  high-angle overhead | dutch tilt | bird's-eye | worm's-eye | tracking shot | rack-focus | POV
+Angles: eye level | low-angle | high-angle | bird's-eye | worm's-eye | dutch tilt | canted
+Composition: rule of thirds, foreground Nepali element framing subject, leading lines (temple steps,
+ridge, alley walls, bridge cables), environmental framing through carved window or stone archway.
 
-JSON (MANDATORY)
-Return ONE JSON array. Each element MUST include "id" matching the scene number from USER INPUT (1-based global order).
+STEP 4 — JSON (MANDATORY)
+Return ONE JSON array. Each element MUST include "id" matching the scene number from USER INPUT.
 Exact shape per object:
 {
   "id": <number>,
-  "scene": "One clean cinematic description sentence/paragraph. No bracketed headers like [SCENE] or [STYLE]. No '---' separators.",
+  "scene": "Full cinematic description — the Nepali character, their action, and the specific Nepali environment. Weave the shot angle naturally into the prose. Plain text, no brackets, no separators.",
   "shot": {
-    "type": "Cinematic shot type — must be one of: extreme close-up / close-up / medium close-up / medium shot / medium wide / wide shot / extreme wide / over-the-shoulder / two-shot — do NOT repeat the same type across consecutive scenes",
-    "angle": "Cinematic camera angle — must be one of: eye level / low-angle (hero shot) / high-angle / bird's-eye / worm's-eye / dutch tilt / canted — vary across scenes",
-    "framing": "Cinematic composition — e.g. rule of thirds with subject off-center, centered symmetry, foreground object framing subject, leading lines into depth, negative space, environmental framing through archway or window"
+    "type": "one of the listed shot types — do NOT repeat same type consecutively",
+    "angle": "one of the listed angles — vary across scenes",
+    "framing": "specific cinematic composition — e.g. 'character off-center right, marigold garland arch in foreground, Newari courtyard receding behind', 'low angle looking up temple steps with character silhouetted against sky'"
   },
-  "style": "semi-realistic 2D illustration, modern graphic novel style, western comic + soft anime influence, cinematic digital painting, grounded realism, dramatic storytelling frame",
+  "style": "photorealistic cinematic photography, documentary film quality, real human skin and fabric texture, natural lighting, sharp focus, National Geographic / cinematic portrait style, grounded in reality",
   "characters": {
     "main": {
-      "summary": "Nepali person — repeat the same age, gender, body type, and ethnicity (e.g. 28-year-old Newar woman, athletic build) established in scene 1 of this batch",
-      "appearance": "Repeat exact same face, hair style, hair color, and defining features from scene 1 — do NOT change between scenes",
-      "outfit": "Authentic Nepali clothing consistent with the established outfit (daura suruwal, sari, gunyu cholo, dhaka topi, etc.) — only change if the seed explicitly implies a new setting or time",
-      "pose": "Natural, readable body posture matching the action",
-      "emotion": "Clear facial expression matching the scene beat"
+      "summary": "Nepali person — same age, gender, ethnicity, and body type established in scene 1 (e.g. '34-year-old Newar woman, lean build, porter')",
+      "appearance": "Exact same face as scene 1 — South Asian Nepali features, specific ethnicity, warm medium-brown skin, dark eyebrows, realistic age detail, natural hair — do NOT change between scenes",
+      "outfit": "Authentic Nepali clothing consistent with scene 1 — e.g. daura suruwal, dhaka topi, sari, gunyu cholo, labeda suruwal, shawl — realistic fabric texture and drape — only change if seed implies new setting or time",
+      "pose": "Natural, grounded posture matching the scene action — physically specific",
+      "emotion": "Subtle, realistic expression matching the scene beat — understated and human"
     },
-    "secondary": [
-      {
-        "summary": "Who they are (only if present in the seed)",
-        "appearance": "",
-        "outfit": "",
-        "pose": "",
-        "emotion": ""
-      }
-    ],
-    "consistency_rules": "STRICT: same Nepali face, same hair, same body proportions, same outfit logic across all scenes in this batch — treat character as a locked actor, not a re-cast role"
+    "secondary": [],
+    "consistency_rules": "STRICT: same face, same hair, same body proportions, same outfit logic, same photorealistic rendering across all scenes in this batch — treat as a locked real actor"
   },
-  "line_render": "clean bold line art, sharp ink outlines, high precision linework, smooth shading, soft gradient transitions, subtle cel shading blend, realistic skin texture, fabric detail, material definition",
   "lighting": {
-    "primary": "cinematic lighting: choose one: golden hour sunlight / moody ambient / night neon / dramatic contrast",
-    "details": "volumetric light rays, soft glow highlights, realistic shadows, directional light source, atmospheric lighting depth",
-    "mood": "Match emotional tone"
+    "primary": "one of: golden hour sunlight / overcast diffused daylight / harsh midday sun / interior diyo or candle light / open window light / blue-hour dusk / festival fire glow / moonlight",
+    "details": "specific behavior — e.g. 'warm golden rim light on character's shoulder from sun behind Himalayan ridge', 'soft diyo flame illuminating face from below with deep shadows behind', 'morning light through carved wooden lattice casting grid shadows on stone floor'",
+    "mood": "emotional quality of the light — match the scene beat"
   },
-  "background": "Illustrated Nepali environment (Newari architecture, mountain village, terraced farmland, temple courtyard, bazaar, stupa, festival ground, etc.), animation-ready",
-  "environment": "highly detailed Nepali environment: <specific location — e.g. brick-paved Kathmandu alley with carved wooden windows, terraced rice fields backed by Himalayan peaks, Dashain fairground with bamboo ping swings>. realistic textures, layered background, atmospheric depth, immersive setting, subtle cultural environmental storytelling",
-  "color_palette": "cinematic color grading, film-like palette, slightly desaturated tones, rich contrast, warm highlights + cool shadows, natural greens/blues, cohesive color harmony, subtle green LUT tint (light touch) for consistency across all scenes",
-  "quality": "ultra detailed, 4k resolution, masterpiece, artstation quality, professional illustration, sharp focus, cinematic composition",
+  "background": "specific real Nepali environment with cultural detail — e.g. 'Boudhanath stupa courtyard at dawn, white dome catching first light, butter lamps burning at the base, pilgrims in white shawls circling clockwise' or 'terraced rice paddies stepping down to a river valley, stone farmhouse with prayer flags on roof, Himalayan peaks in morning haze'",
+  "environment": "highly detailed real Nepali location: specific place + physical materials (carved wood, ancient brick, hand-woven fabric, stone, brass) + atmospheric conditions + layered depth. Cultural storytelling in the environment. No abstract or non-Nepali spaces.",
+  "color_palette": "cinematic Nepali grading — warm amber/orange highlights, subtle teal in shadows, natural warm-brown skin tones, slightly desaturated mid-tones, rich contrast, organic color harmony, teal-and-orange LUT applied consistently across all scenes",
+  "quality": "ultra detailed, 4K cinematic resolution, photorealistic, sharp focus, professional cinematography, authentic skin and fabric textures, realistic depth of field, subtle film grain, natural color science",
   "aspect_ratio": "9:16",
   "strict_prohibitions": [
     "no text anywhere",
     "no logos or watermarks",
-    "no photorealism",
+    "no illustration or 2D art",
+    "no cartoon or animation aesthetics",
+    "no cel shading or line art",
     "no 3d render",
-    "no low quality",
-    "no blurry lines",
+    "no low quality or blurry images",
     "no messy anatomy",
     "no non-nepali cultural elements",
     "no western fast-food or chain-store props",
-    "no character design changes between scenes"
+    "no character design changes between scenes",
+    "no abstract or non-Nepali backgrounds",
+    "no split frames or multi-panel layouts"
   ]
 }
 
 NOTES FOR CLEAN OUTPUT
-- Do NOT include bracketed section headers (like [SCENE], [CHARACTERS]) anywhere in any field.
-- "scene" must be plain text only (no separators, no template labels).
-- If there are no secondary characters, set "characters.secondary" to an empty array.
+- "scene" plain text only — no bracketed labels, no section headers, no separators.
+- If no secondary characters, set "characters.secondary" to an empty array.
 - Never output symbol-only content (e.g. "???") in any field.
-- Do not include any of these anywhere: "?", "??", "???", "speech bubble", "thought bubble", "bubble", "split screen", "split frame", "multi-panel", "triptych", "collage".
+- background must always name a real Nepali location — never abstract.
+- Do not include: speech bubble, thought bubble, split screen, split frame, multi-panel, triptych, collage.
 
 GLOBAL RULES
 - Output ONLY valid JSON (no markdown, no prose outside the array).
 - Generate EXACTLY the scenes listed in USER INPUT — no extras, no omissions.
 - "id" must match the scene numbers provided.
-- strict_prohibitions, style, aspect_ratio, and quality strings must stay consistent across scenes in this response.`;
+- style, aspect_ratio, quality, strict_prohibitions must be identical across every scene object.`;
 
 /**
  * @param sceneLines — broll_prompt strings from master analyzer chunks (one batch)
- * @param startIndex — zero-based global index of first scene in this batch (used for labels only; ids are explicit in prompt)
+ * @param startIndex — zero-based global index of first scene in this batch
  */
 export const generate2dNepalThemeBrollPrompt = (sceneLines: string[], startIndex: number): string => {
-  return `${twoDNepalThemeMasterPrompt}
+  return `${nepalCinematicMasterPrompt}
 
 USER INPUT — expand each into one JSON object with matching id:
 ${sceneLines.map((line, idx) => `Scene id ${startIndex + idx + 1}: ${line}`).join('\n')}
@@ -122,7 +117,7 @@ Return a JSON array of exactly ${sceneLines.length} objects, ids ${startIndex + 
 
 export const twoDNepalThemeBrollGeneratorConfig = {
   // model is read from TWO_D_NEPAL_THEME_MODEL in .env via CONFIG
-  temperature: 0.7,
+  temperature: 0.6,
   batchSize: 5,
   batchDelayMs: 1000,
 };
