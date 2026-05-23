@@ -67,7 +67,7 @@ export function GenerateToolPage() {
 
   const trimmedLength = script.trim().length;
   const MIN_SCRIPT_CHARACTERS = 800;
-  const MAX_SCRIPT_CHARACTERS = selectedStyle === '2d_nepal_theme' ? 2000 : 1500;
+  const MAX_SCRIPT_CHARACTERS = (selectedStyle === '2d_nepal_theme' || selectedStyle === 'documentary') ? 2000 : 1500;
   const isScriptLengthInvalid =
     trimmedLength > 0 && (trimmedLength < MIN_SCRIPT_CHARACTERS || trimmedLength > MAX_SCRIPT_CHARACTERS);
   const scriptValidationErrors = [
@@ -258,6 +258,35 @@ export function GenerateToolPage() {
 
             <p className="text-sm font-semibold text-[#f0ede8]">2D Nepali Theme</p>
             <p className="mt-1 text-xs text-[#888888]">Nepali characters &amp; cultural setting</p>
+          </button>
+
+          {/* Documentary style card */}
+          <button
+            type="button"
+            onClick={() => setSelectedStyle('documentary')}
+            disabled={isGenerating}
+            className={`relative rounded-md border p-4 text-left transition-colors ${
+              selectedStyle === 'documentary'
+                ? 'border-[#e8380d] bg-[#e8380d]/12'
+                : 'border-[#2e2e2e] bg-[#161616] hover:border-[#e8380d]/60'
+            } disabled:cursor-not-allowed disabled:opacity-50`}
+          >
+            <button
+              type="button"
+              aria-label="More info about Documentary style"
+              onClick={(event) => event.stopPropagation()}
+              className="group absolute right-3 top-3 inline-flex h-6 w-6 items-center justify-center rounded-sm text-[#b0b0b0]/40 transition-opacity hover:text-[#f0ede8] hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-[#ff5a2f]/40"
+            >
+              <CircleHelp size={14} />
+              <span className="pointer-events-none absolute bottom-full right-0 z-20 mb-2 w-[280px] rounded border border-[#3a2a25] bg-[#171311] p-2.5 text-left text-[11px] leading-5 text-[#e8ddd7] opacity-0 shadow-[0_12px_30px_rgba(0,0,0,0.45)] transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100">
+                Premium documentary cinematography — photorealistic, handheld energy, natural lighting, and a consistent
+                teal-and-orange LUT across all scenes. Best for real-world stories, biographical content, and social topics.
+                Supports 1000–2000 character scripts.
+              </span>
+            </button>
+
+            <p className="text-sm font-semibold text-[#f0ede8]">Documentary</p>
+            <p className="mt-1 text-xs text-[#888888]">Photorealistic, cinematic, real-world feel</p>
           </button>
         </div>
 
