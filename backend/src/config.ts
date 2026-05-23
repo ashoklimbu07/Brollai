@@ -46,5 +46,6 @@ export const CONFIG = {
   TRANSPARENT_SKELETON_MODEL: process.env.TRANSPARENT_SKELETON_MODEL?.trim() || DEFAULT_MODEL,
   TWO_D_ANIMATION_MODEL:       process.env.TWO_D_ANIMATION_MODEL?.trim()       || DEFAULT_MODEL,
   TWO_D_NEPAL_THEME_MODEL:     process.env.TWO_D_NEPAL_THEME_MODEL?.trim()     || DEFAULT_MODEL,
+  DOCUMENTARY_MODEL:           process.env.DOCUMENTARY_MODEL?.trim()           || DEFAULT_MODEL,
   ANALYZER_MODEL:              process.env.ANALYZER_MODEL?.trim()              || DEFAULT_MODEL,
 };

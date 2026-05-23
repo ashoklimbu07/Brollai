@@ -3,8 +3,10 @@ import { CONFIG } from '../config.js';
 import { generateBrollPrompt } from '../prompts/brollmasterprompt.js';
 import { generate2dAnimationBrollPrompt } from '../prompts/broll2dAnimationMasterPrompt.js';
 import { generate2dNepalThemeBrollPrompt } from '../prompts/broll2dNepalThemeMasterPrompt.js';
+import { generateDocumentaryBrollPrompt } from '../prompts/brollDocumentaryMasterPrompt.js';
 import type { BrollScene, SceneChunk } from '../types.js';
 import { safeParseJSON } from '../utils/safeParseJSON.js';
+
 import { ApiKeyPool } from './apiKeyPool.js';
 
 function splitIntoBatches<T>(items: T[], batchSize: number): T[][] {
@@ -118,6 +120,7 @@ export async function runBatchGenerator(params: {
             const styleModel =
               params.style === '2d_animation'   ? CONFIG.TWO_D_ANIMATION_MODEL :
               params.style === '2d_nepal_theme' ? CONFIG.TWO_D_NEPAL_THEME_MODEL :
+              params.style === 'documentary'    ? CONFIG.DOCUMENTARY_MODEL :
                                                   CONFIG.TRANSPARENT_SKELETON_MODEL;
             const model = genAI.getGenerativeModel({
               model: styleModel,
@@ -140,7 +143,9 @@ export async function runBatchGenerator(params: {
                 ? generate2dAnimationBrollPrompt(sceneLines, batchStartIndex)
                 : params.style === '2d_nepal_theme'
                   ? generate2dNepalThemeBrollPrompt(sceneLines, batchStartIndex)
-                  : generateBrollPrompt(sceneLines, batchStartIndex);
+                  : params.style === 'documentary'
+                    ? generateDocumentaryBrollPrompt(sceneLines, batchStartIndex)
+                    : generateBrollPrompt(sceneLines, batchStartIndex);
             const response = await model.generateContent(prompt);
             throwIfAborted();
             const rawText = response.response.text();

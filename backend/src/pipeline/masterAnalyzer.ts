@@ -9,6 +9,10 @@ import {
   getNepalThemeMasterAnalyzerSystemPrompt,
   getNepalThemeMasterAnalyzerUserPrompt,
 } from '../prompts/masterAnalyzerNepalThemePrompt.js';
+import {
+  getDocumentaryMasterAnalyzerSystemPrompt,
+  getDocumentaryMasterAnalyzerUserPrompt,
+} from '../prompts/masterAnalyzerDocumentaryPrompt.js';
 import type { MasterAnalyzerResult, SceneChunk } from '../types.js';
 import { safeParseJSON } from '../utils/safeParseJSON.js';
 
@@ -42,8 +46,8 @@ export async function runMasterAnalyzer(
   for (let attempt = 1; attempt <= CONFIG.MAX_RETRIES; attempt += 1) {
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
-      // Nepal theme seeds are verbose — use higher token limit to avoid truncation.
-      const maxOutputTokens = style === '2d_nepal_theme' ? 16000 : 8192;
+      // Documentary and Nepal theme seeds are verbose — use higher token limit to avoid truncation.
+      const maxOutputTokens = style === '2d_nepal_theme' || style === 'documentary' ? 16000 : 8192;
       const model = genAI.getGenerativeModel({
         model: CONFIG.ANALYZER_MODEL,
         generationConfig: {
@@ -57,13 +61,18 @@ export async function runMasterAnalyzer(
           ? getNepalThemeMasterAnalyzerSystemPrompt()
           : style === '2d_animation'
             ? get2dAnimationMasterAnalyzerSystemPrompt()
-            : getMasterAnalyzerSystemPrompt();
+            : style === 'documentary'
+              ? getDocumentaryMasterAnalyzerSystemPrompt()
+              : getMasterAnalyzerSystemPrompt();
+
       const userPrompt =
         style === '2d_nepal_theme'
           ? getNepalThemeMasterAnalyzerUserPrompt(script, sceneCount)
           : style === '2d_animation'
             ? get2dAnimationMasterAnalyzerUserPrompt(script, sceneCount)
-            : getMasterAnalyzerUserPrompt(script, sceneCount);
+            : style === 'documentary'
+              ? getDocumentaryMasterAnalyzerUserPrompt(script, sceneCount)
+              : getMasterAnalyzerUserPrompt(script, sceneCount);
 
       const result = await model.generateContent([
         { text: systemPrompt },
