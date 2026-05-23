@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import { BookOpen, Eraser, History, Languages, Library, Scissors, Search, Settings, Sparkles, Tag } from 'lucide-react';
+import { BookOpen, History, Languages, Library, Scissors, Search, Settings, Sparkles, SplitSquareVertical, Tag } from 'lucide-react';
 
 export type WorkspaceNavItem = {
   icon: LucideIcon;
@@ -12,7 +12,7 @@ export const toolsNavItems: WorkspaceNavItem[] = [
   { icon: Search, label: 'Video Scene Analyzer', path: '/tools/video-scene-analyzer' },
   { icon: Languages, label: 'Script Translator', path: '/script-translator' },
   { icon: BookOpen, label: 'Manual Story', path: '/tools/manual-story' },
-  { icon: Eraser, label: 'Prompt Cleaner', path: '/tools/prompt-cleaner' },
+  { icon: SplitSquareVertical, label: 'Prompt Parser', path: '/tools/prompt-cleaner' },
   { icon: Scissors, label: 'Script Splitter', path: '/tools/script-splitter' },
 ];
 

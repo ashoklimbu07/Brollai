@@ -94,10 +94,10 @@ export function PromptCleanerPage() {
         {/* Header */}
         <div className="mb-6">
           <h1 className="font-['Bebas_Neue'] text-[28px] tracking-[1px] sm:text-[36px] lg:text-[40px]">
-            Prompt Cleaner
+            Prompt Parser
           </h1>
           <p className="mt-1 text-sm leading-5 text-[#8a8a8a]">
-            Paste prompts or upload a .txt / .json file. Prompts separated by a blank line are split into individual cards.
+            Paste a raw prompt block or upload a <span className="text-[#cccccc]">.txt</span> / <span className="text-[#cccccc]">.json</span> file. Each blank-line-separated section is extracted into its own card — ready to copy or review individually.
           </p>
         </div>
 
@@ -147,7 +147,7 @@ export function PromptCleanerPage() {
             <textarea
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              placeholder={"Paste prompts here, separated by a blank line...\n\nOr upload a .txt / .json file above."}
+              placeholder={"Paste prompt blocks here, separated by a blank line…\n\nEach block will become its own card.\nOr upload a .txt / .json file above."}
               rows={10}
               className="w-full resize-y rounded border border-[#2f2f2f] bg-[#161616] px-3 py-3 font-mono text-sm text-[#f0ede8] placeholder-[#444444] outline-none transition-colors focus:border-[#ff5a2f]"
             />
