@@ -111,9 +111,6 @@ export function ScriptSplitterPage() {
         {/* Header */}
         <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex items-start gap-3">
-            <div className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center border border-[#e8380d]/30 bg-[#e8380d]/10">
-              <Scissors size={18} className="text-[#e8380d]" />
-            </div>
             <div>
               <h1 className="font-['Bebas_Neue'] text-[28px] tracking-[1px] sm:text-[36px] lg:text-[40px]">
                 Script Splitter
