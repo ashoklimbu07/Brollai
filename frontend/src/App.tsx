@@ -8,7 +8,7 @@ import { SignupPage } from './auth/Signup/SignupPage';
 import { GoogleAuthSuccessPage } from './auth/GoogleAuthSuccess/GoogleAuthSuccessPage';
 import { ProtectedRoute, PublicOnlyRoute, AdminRoute } from './auth/AuthRouteGuards';
 import { HistoryPage } from './extra/History/HistoryPage';
-import { MediaLibraryPage } from './extra/MediaLibrary/MediaLibraryPage';
+import { OtherToolsPage } from './extra/OtherTools/OtherToolsPage';
 import { ManualStoryPage } from './tools/ManualStory/ManualStoryPage';
 import { PromptParserPage } from './tools/PromptParser/PromptParserPage';import { ScriptSplitterPage } from './tools/ScriptSplitter/ScriptSplitterPage';
 import { ScriptTranslatorPage } from './tools/ScriptTranslator/ScriptTranslatorPage';
@@ -34,7 +34,8 @@ function App() {
       <Route path="/tools/manual-story" element={<ProtectedRoute><ManualStoryPage /></ProtectedRoute>} />
       <Route path="/tools/script-splitter" element={<ProtectedRoute><ScriptSplitterPage /></ProtectedRoute>} />
       <Route path="/extra/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
-      <Route path="/extra/media-library" element={<ProtectedRoute><MediaLibraryPage /></ProtectedRoute>} />
+      <Route path="/extra/media-library" element={<ProtectedRoute><Navigate to="/extra/other-tools" replace /></ProtectedRoute>} />
+      <Route path="/extra/other-tools" element={<ProtectedRoute><OtherToolsPage /></ProtectedRoute>} />
       <Route path="/account/pricing" element={<ProtectedRoute><PricingPage /></ProtectedRoute>} />
       <Route path="/account/theme" element={<ProtectedRoute><Navigate to="/account/pricing" replace /></ProtectedRoute>} />
       <Route path="/account/settings" element={<ProtectedRoute><AccountSettingsPage /></ProtectedRoute>} />

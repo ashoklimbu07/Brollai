@@ -18,7 +18,7 @@ export const toolsNavItems: WorkspaceNavItem[] = [
 
 export const extraNavItems: WorkspaceNavItem[] = [
   { icon: History, label: 'History', path: '/extra/history' },
-  { icon: Library, label: 'Media Library', path: '/extra/media-library' },
+  { icon: Library, label: 'Other Tools', path: '/extra/other-tools' },
 ];
 
 export const accountNavItems: WorkspaceNavItem[] = [
