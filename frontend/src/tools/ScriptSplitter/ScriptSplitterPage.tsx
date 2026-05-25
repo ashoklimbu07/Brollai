@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { WorkspaceLayout } from '../../workspace/WorkspaceLayout';
 import { ConfirmModal } from '../ManualStory/ConfirmModal';
 import { ScriptSplitterChunkCard } from './ScriptSplitterChunkCard';
-import { useScriptState, useModeState, useChunkSizeState, useNumPartsState } from './scriptSplitter.hooks';
+import { useScriptState, useModeState, useChunkSizeState, useNumPartsState, useChunksState } from './scriptSplitter.hooks';
 import { splitIntoChunks, downloadAllChunks } from './scriptSplitter.utils';
 import { MAX_CHARS, DEFAULT_CHUNK_SIZE, DEFAULT_NUM_PARTS, OVERLAP_CHARS } from './scriptSplitter.types';
 import type { SplitMode } from './scriptSplitter.types';
@@ -17,7 +17,7 @@ export function ScriptSplitterPage() {
   const [numPartsInput,  setNumPartsInput]  = useNumPartsState();
 
   // ── Ephemeral state ──────────────────────────────────────────────────────
-  const [chunks,         setChunks]         = useState<string[]>([]);
+  const [chunks,         setChunks]         = useChunksState();
   const [error,          setError]          = useState<string | null>(null);
   const [showClearModal, setShowClearModal] = useState(false);
 
@@ -321,6 +321,8 @@ export function ScriptSplitterPage() {
           setScript('');
           setChunks([]);
           setError(null);
+          // Also clear the session key directly so storage is fully wiped
+          try { sessionStorage.removeItem('splitter:chunks'); } catch { /* ignore */ }
         }}
       />
     </WorkspaceLayout>
