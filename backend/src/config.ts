@@ -29,8 +29,9 @@ const readPoolKey = (index: number): string | undefined => {
   return fallback || undefined;
 };
 
-// Fallback model used when a style-specific env var is not set
-const DEFAULT_MODEL = 'gemini-2.5-flash';
+// Fallback model used when a style-specific env var is not set.
+// Set DEFAULT_BROLL_MODEL in .env to override; falls back to gemini-2.5-flash if unset.
+const DEFAULT_MODEL = process.env.DEFAULT_BROLL_MODEL?.trim() || 'gemini-2.5-flash';
 
 export const CONFIG = {
   SCENE_COUNT: DEFAULT_SCENE_COUNT,
